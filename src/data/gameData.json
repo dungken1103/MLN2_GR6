@@ -13,18 +13,27 @@
       "options": [
         {
           "text": "Tăng lương mạnh (15%)",
-          "impact": { "growth": -0.5, "inflation": 1.5, "unemployment": 1.0, "satisfaction": 15 },
-          "theory": "Bảo vệ hàng hóa sức lao động, nhưng gây áp lực lạm phát chi phí đẩy."
+          "impact": { "growth": -0.8, "inflation": 2.0, "unemployment": 1.5, "satisfaction": 20 },
+          "theory": "Bảo vệ tối đa hàng hóa sức lao động, nhưng gây áp lực lạm phát chi phí đẩy nặng nề.",
+          "tag": "Radical"
         },
         {
           "text": "Tăng lương nhẹ (5%)",
           "impact": { "growth": 0.2, "inflation": 0.5, "unemployment": 0.2, "satisfaction": 5 },
-          "theory": "Cân bằng giữa tái sản xuất sức lao động và khả năng chi trả của tư bản."
+          "theory": "Cân bằng giữa tái sản xuất sức lao động và khả năng tích lũy của tư bản.",
+          "tag": "Reformist"
         },
         {
           "text": "Giữ nguyên để thu hút đầu tư",
-          "impact": { "growth": 1.0, "inflation": -0.2, "unemployment": -0.5, "satisfaction": -15 },
-          "theory": "Ưu tiên tích lũy tư bản, nhưng làm trầm trọng thêm mâu thuẫn giai cấp."
+          "impact": { "growth": 1.5, "inflation": -0.5, "unemployment": -0.8, "satisfaction": -20 },
+          "theory": "Ưu tiên tích lũy tư bản tuyệt đối, làm trầm trọng thêm mâu thuẫn giai cấp.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Tăng lương kèm đào tạo kỹ năng",
+          "impact": { "growth": 0.5, "inflation": 0.8, "unemployment": -0.2, "satisfaction": 12 },
+          "theory": "Nâng cao giá trị hàng hóa sức lao động đi đôi với phát triển lực lượng sản xuất.",
+          "tag": "Marxist"
         }
       ]
     },
@@ -34,14 +43,28 @@
       "description": "Ngân sách đang thiếu hụt cho các dự án hạ tầng công cộng. Bạn sẽ làm gì với thuế thu nhập doanh nghiệp?",
       "options": [
         {
-          "text": "Tăng thuế để đầu tư công",
-          "impact": { "growth": 0.5, "inflation": 0.3, "unemployment": 0.2, "satisfaction": 10 },
-          "theory": "Nhà nước điều tiết thặng dư để phát triển lực lượng sản xuất chung."
+          "text": "Tăng thuế mạnh vào tập đoàn lớn",
+          "impact": { "growth": -0.5, "inflation": 0.2, "unemployment": 0.5, "satisfaction": 15 },
+          "theory": "Điều tiết giá trị thặng dư từ tay tư bản độc quyền vào ngân sách nhà nước.",
+          "tag": "Marxist"
         },
         {
-          "text": "Giảm thuế để kích cầu",
-          "impact": { "growth": 1.2, "inflation": 0.8, "unemployment": -0.4, "satisfaction": 5 },
-          "theory": "Kích thích quá trình tích lũy và mở rộng sản xuất của tư bản tư nhân."
+          "text": "Giảm thuế để kích thích đầu tư",
+          "impact": { "growth": 1.8, "inflation": 1.2, "unemployment": -1.0, "satisfaction": -5 },
+          "theory": "Tạo điều kiện cho quá trình tích lũy và tập trung tư bản tự do.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Đánh thuế lũy tiến theo quy mô",
+          "impact": { "growth": 0.3, "inflation": 0.5, "unemployment": 0.1, "satisfaction": 8 },
+          "theory": "Hạn chế sự phân hóa giàu nghèo trong quan hệ sở hữu.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Miễn thuế cho ngành công nghệ cao",
+          "impact": { "growth": 1.1, "inflation": 0.4, "unemployment": -0.5, "satisfaction": 2 },
+          "theory": "Ưu tiên phát triển các lực lượng sản xuất tiên tiến.",
+          "tag": "Technocratic"
         }
       ]
     },
@@ -51,155 +74,319 @@
       "description": "Giá bất động sản tăng phi mã, gây khó khăn cho việc xây dựng nhà máy và nhà ở xã hội.",
       "options": [
         {
-          "text": "Thắt chặt sở hữu toàn dân",
-          "impact": { "growth": -0.3, "inflation": -1.0, "unemployment": 0.1, "satisfaction": 12 },
-          "theory": "Hạn chế địa tô tuyệt đối, ưu tiên mục đích sử dụng công cộng."
+          "text": "Quốc hữu hóa toàn bộ đất đai",
+          "impact": { "growth": -1.5, "inflation": -1.2, "unemployment": 0.5, "satisfaction": 25 },
+          "theory": "Xóa bỏ hoàn toàn địa tô tư nhân, khẳng định sở hữu toàn dân tuyệt đối.",
+          "tag": "Radical"
         },
         {
-          "text": "Phát triển thị trường quyền sử dụng",
-          "impact": { "growth": 1.5, "inflation": 1.2, "unemployment": -0.3, "satisfaction": -5 },
-          "theory": "Thúc đẩy lưu thông tư bản nhưng dễ dẫn đến đầu cơ đất đai."
+          "text": "Đánh thuế cao vào đầu cơ đất",
+          "impact": { "growth": 0.2, "inflation": -0.8, "unemployment": -0.1, "satisfaction": 15 },
+          "theory": "Điều tiết địa tô chênh lệch để phục vụ lợi ích chung.",
+          "tag": "Marxist"
+        },
+        {
+          "text": "Mở rộng quyền chuyển nhượng",
+          "impact": { "growth": 2.0, "inflation": 1.5, "unemployment": -0.5, "satisfaction": -15 },
+          "theory": "Thương mại hóa tư liệu sản xuất đất đai, thúc đẩy thị trường bất động sản.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Quy hoạch khu công nghiệp tập trung",
+          "impact": { "growth": 1.2, "inflation": 0.5, "unemployment": -0.8, "satisfaction": 5 },
+          "theory": "Tổ chức lại lực lượng sản xuất theo hướng tập trung hóa.",
+          "tag": "Reformist"
         }
       ]
     },
     {
       "id": 4,
-      "title": "Đầu tư Giáo dục",
-      "description": "Lực lượng lao động thiếu kỹ năng cho các ngành công nghiệp hiện đại.",
+      "title": "Giáo dục & Công nghệ",
+      "description": "Lực lượng lao động thiếu kỹ năng cần thiết cho cuộc Cách mạng công nghiệp 4.0.",
       "options": [
         {
-          "text": "Miễn phí hoàn toàn giáo dục nghề",
-          "impact": { "growth": 0.8, "inflation": 0.4, "unemployment": -1.0, "satisfaction": 15 },
-          "theory": "Nâng cao chất lượng hàng hóa sức lao động trong dài hạn."
+          "text": "Hệ thống giáo dục công miễn phí",
+          "impact": { "growth": 0.8, "inflation": 0.5, "unemployment": -1.2, "satisfaction": 20 },
+          "theory": "Nâng cao chất lượng hàng hóa sức lao động bằng chi phí xã hội.",
+          "tag": "Marxist"
         },
         {
-          "text": "Khuyến khích tư nhân hóa giáo dục",
-          "impact": { "growth": 1.2, "inflation": 0.6, "unemployment": -0.2, "satisfaction": -10 },
-          "theory": "Tận dụng nguồn vốn tư nhân nhưng tạo ra sự phân hóa trong tiếp cận tri thức."
+          "text": "Khuyến khích các trường tư thục",
+          "impact": { "growth": 1.5, "inflation": 0.8, "unemployment": -0.5, "satisfaction": -10 },
+          "theory": "Xã hội hóa giáo dục theo quy luật thị trường, tăng sự phân hóa tri thức.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Liên kết Doanh nghiệp - Nhà trường",
+          "impact": { "growth": 1.2, "inflation": 0.3, "unemployment": -0.8, "satisfaction": 5 },
+          "theory": "Phối hợp giữa quan hệ sản xuất và nhu cầu phát triển lực lượng sản xuất.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Chỉ đầu tư vào giáo dục đỉnh cao",
+          "impact": { "growth": 1.0, "inflation": 0.2, "unemployment": 0.1, "satisfaction": -5 },
+          "theory": "Tập trung nguồn lực vào các khâu then chốt của lực lượng sản xuất.",
+          "tag": "Technocratic"
         }
       ]
     },
     {
       "id": 5,
       "title": "Cơ sở Hạ tầng",
-      "description": "Hệ thống đường cao tốc và cảng biển đang quá tải.",
+      "description": "Nhu cầu vận tải tăng cao khiến hệ thống giao thông huyết mạch bị quá tải.",
       "options": [
         {
-          "text": "Tập trung vốn nhà nước xây dựng",
-          "impact": { "growth": 1.0, "inflation": 0.7, "unemployment": -0.8, "satisfaction": 5 },
-          "theory": "Tạo điều kiện sản xuất chung cho toàn bộ nền kinh tế quốc dân."
+          "text": "Nhà nước đầu tư trực tiếp 100%",
+          "impact": { "growth": 0.9, "inflation": 1.0, "unemployment": -1.0, "satisfaction": 10 },
+          "theory": "Tạo lập điều kiện sản xuất chung thông qua tích lũy nhà nước.",
+          "tag": "Marxist"
         },
         {
-          "text": "Hợp tác công tư (PPP)",
-          "impact": { "growth": 1.4, "inflation": 0.3, "unemployment": -0.5, "satisfaction": 2 },
-          "theory": "Xã hội hóa việc đầu tư vào tư liệu sản xuất gián tiếp."
+          "text": "Nhượng quyền BOT cho tư nhân",
+          "impact": { "growth": 1.4, "inflation": 0.2, "unemployment": -0.5, "satisfaction": -12 },
+          "theory": "Tư nhân hóa cơ sở hạ tầng, tạo cơ hội thu lợi nhuận thặng dư giao thông.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Hợp tác PPP chia sẻ rủi ro",
+          "impact": { "growth": 1.2, "inflation": 0.4, "unemployment": -0.8, "satisfaction": 2 },
+          "theory": "Kết hợp các thành phần kinh tế trong đầu tư tư liệu sản xuất gián tiếp.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Tập trung vào đường sắt cao tốc",
+          "impact": { "growth": 1.5, "inflation": 1.2, "unemployment": -0.4, "satisfaction": 8 },
+          "theory": "Ưu tiên hạ tầng kỹ thuật hiện đại cho tương lai.",
+          "tag": "Technocratic"
         }
       ]
     },
     {
       "id": 6,
-      "title": "Kiểm soát Giá cả",
-      "description": "Giá xăng dầu thế giới tăng đột ngột, ảnh hưởng đến chi phí sản xuất.",
+      "title": "Khủng hoảng Năng lượng",
+      "description": "Giá năng lượng tăng cao đe dọa sự ổn định của nền sản xuất.",
       "options": [
         {
-          "text": "Dùng quỹ bình ổn trợ giá",
-          "impact": { "growth": 0.2, "inflation": -1.5, "unemployment": -0.1, "satisfaction": 10 },
-          "theory": "Vai trò của Nhà nước trong việc bình ổn giá trị trao đổi hàng hóa thiết yếu."
+          "text": "Kiểm soát giá xăng dầu tuyệt đối",
+          "impact": { "growth": 0.1, "inflation": -2.0, "unemployment": 0.2, "satisfaction": 15 },
+          "theory": "Nhà nước can thiệp thô bạo vào quy luật giá trị để bảo vệ xã hội.",
+          "tag": "Marxist"
         },
         {
-          "text": "Để thị trường tự điều chỉnh",
-          "impact": { "growth": -0.5, "inflation": 2.0, "unemployment": 0.5, "satisfaction": -15 },
-          "theory": "Tôn trọng quy luật giá trị nhưng gây xáo động đời sống xã hội."
+          "text": "Để thị trường tự điều tiết giá",
+          "impact": { "growth": -0.8, "inflation": 3.0, "unemployment": 0.8, "satisfaction": -20 },
+          "theory": "Tôn trọng tuyệt đối quy luật cung cầu, đẩy rủi ro cho người lao động.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Trợ giá cho người nghèo",
+          "impact": { "growth": -0.2, "inflation": 0.5, "unemployment": 0.1, "satisfaction": 10 },
+          "theory": "Điều tiết phân phối lại thu nhập để giảm bớt mâu thuẫn xã hội.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Đầu tư mạnh cho năng lượng tái tạo",
+          "impact": { "growth": 0.5, "inflation": 0.8, "unemployment": -0.5, "satisfaction": 5 },
+          "theory": "Thay đổi cơ sở năng lượng của lực lượng sản xuất.",
+          "tag": "Technocratic"
         }
       ]
     },
     {
       "id": 7,
-      "title": "An sinh Xã hội",
-      "description": "Dân số đang già hóa, gây áp lực lên hệ thống hưu trí.",
+      "title": "Y tế & An sinh",
+      "description": "Hệ thống y tế công cộng đang rơi vào tình trạng quá tải trầm trọng.",
       "options": [
         {
-          "text": "Tăng phúc lợi và bảo hiểm xã hội",
-          "impact": { "growth": -0.4, "inflation": 0.2, "unemployment": 0.1, "satisfaction": 18 },
-          "theory": "Tái phân phối thu nhập quốc dân để bảo đảm công bằng xã hội."
+          "text": "Y tế toàn dân miễn phí",
+          "impact": { "growth": -0.5, "inflation": 1.2, "unemployment": 0.2, "satisfaction": 25 },
+          "theory": "Bảo đảm quyền lợi con người, tách rời y tế khỏi mục tiêu lợi nhuận thặng dư.",
+          "tag": "Marxist"
         },
         {
-          "text": "Khuyến khích bảo hiểm tư nhân",
-          "impact": { "growth": 0.6, "inflation": 0.1, "unemployment": 0.2, "satisfaction": -5 },
-          "theory": "Thương mại hóa nhu cầu an sinh, giảm gánh nặng ngân sách."
+          "text": "Tư nhân hóa hệ thống bệnh viện",
+          "impact": { "growth": 1.0, "inflation": 0.6, "unemployment": -0.2, "satisfaction": -15 },
+          "theory": "Biến y tế thành ngành kinh doanh thu lợi nhuận, tăng sự bất bình đẳng.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Bảo hiểm y tế bắt buộc",
+          "impact": { "growth": 0.2, "inflation": 0.4, "unemployment": 0.1, "satisfaction": 5 },
+          "theory": "Xã hội hóa chi phí y tế thông qua quan hệ phân phối lại.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Số hóa ngành y tế",
+          "impact": { "growth": 0.8, "inflation": 0.3, "unemployment": -0.4, "satisfaction": 2 },
+          "theory": "Ứng dụng khoa học công nghệ vào lĩnh vực dịch vụ xã hội.",
+          "tag": "Technocratic"
         }
       ]
     },
     {
       "id": 8,
-      "title": "Đổi mới Công nghệ",
-      "description": "Tự động hóa đang thay thế công nhân trong các nhà máy.",
+      "title": "Môi trường Xã hội",
+      "description": "Các nhà máy công nghiệp xả thải gây ô nhiễm nghiêm trọng môi trường sống.",
       "options": [
         {
-          "text": "Hỗ trợ chuyển đổi nghề nghiệp",
-          "impact": { "growth": 0.5, "inflation": 0.3, "unemployment": -0.5, "satisfaction": 8 },
-          "theory": "Thích ứng quan hệ sản xuất với trình độ mới của lực lượng sản xuất."
+          "text": "Đóng cửa nhà máy vi phạm ngay",
+          "impact": { "growth": -2.0, "inflation": 1.5, "unemployment": 2.0, "satisfaction": 15 },
+          "theory": "Ưu tiên giá trị sử dụng của môi trường hơn giá trị trao đổi kinh tế.",
+          "tag": "Radical"
         },
         {
-          "text": "Đánh thuế 'Robot' để bảo vệ việc làm",
-          "impact": { "growth": -0.8, "inflation": 0.5, "unemployment": 0.2, "satisfaction": 5 },
-          "theory": "Kìm hãm sự phát triển của công cụ lao động để duy trì ổn định tạm thời."
+          "text": "Đánh thuế Carbon cao",
+          "impact": { "growth": -0.5, "inflation": 0.8, "unemployment": 0.3, "satisfaction": 10 },
+          "theory": "Sử dụng công cụ kinh tế để điều tiết hành vi của tư bản sản xuất.",
+          "tag": "Marxist"
+        },
+        {
+          "text": "Cho phép mua bán hạn ngạch phát thải",
+          "impact": { "growth": 0.5, "inflation": 0.3, "unemployment": -0.1, "satisfaction": -8 },
+          "theory": "Thương mại hóa quyền gây ô nhiễm môi trường.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Hỗ trợ công nghệ sạch cho DN",
+          "impact": { "growth": 0.8, "inflation": 0.4, "unemployment": -0.2, "satisfaction": 5 },
+          "theory": "Nâng cấp trình độ công nghệ của lực lượng sản xuất để giảm tác hại môi trường.",
+          "tag": "Technocratic"
         }
       ]
     },
     {
       "id": 9,
-      "title": "Môi trường",
-      "description": "Ô nhiễm công nghiệp đang đạt mức báo động.",
+      "title": "Độc quyền & Cạnh tranh",
+      "description": "Các tập đoàn lớn đang thâu tóm thị trường, chèn ép doanh nghiệp nhỏ.",
       "options": [
         {
-          "text": "Áp thuế carbon và đóng cửa nhà máy bẩn",
-          "impact": { "growth": -1.0, "inflation": 0.8, "unemployment": 0.5, "satisfaction": 10 },
-          "theory": "Giải quyết mâu thuẫn giữa phát triển kinh tế và bảo vệ môi trường sống."
+          "text": "Chia tách các tập đoàn độc quyền",
+          "impact": { "growth": -0.2, "inflation": -0.5, "unemployment": 0.5, "satisfaction": 18 },
+          "theory": "Kiểm soát xu hướng tập trung tư bản, duy trì môi trường cạnh tranh lành mạnh.",
+          "tag": "Marxist"
         },
         {
-          "text": "Ưu tiên kinh tế trước, xử lý sau",
-          "impact": { "growth": 1.2, "inflation": 0.2, "unemployment": -0.3, "satisfaction": -12 },
-          "theory": "Chạy theo giá trị trao đổi đơn thuần, bỏ qua giá trị sử dụng của môi trường."
+          "text": "Khuyến khích 'Vô địch quốc gia'",
+          "impact": { "growth": 1.2, "inflation": 0.8, "unemployment": -0.5, "satisfaction": -10 },
+          "theory": "Thúc đẩy tích tụ tư bản ở quy mô lớn để cạnh tranh quốc tế.",
+          "tag": "Capitalist"
+        },
+        {
+          "text": "Luật cạnh tranh nghiêm ngặt",
+          "impact": { "growth": 0.3, "inflation": 0.2, "unemployment": 0.1, "satisfaction": 5 },
+          "theory": "Nhà nước điều tiết hành vi thị trường thông qua pháp luật.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Quốc hữu hóa ngành cốt lõi",
+          "impact": { "growth": -0.8, "inflation": 1.0, "unemployment": -0.2, "satisfaction": 12 },
+          "theory": "Chuyển sở hữu tư nhân độc quyền sang sở hữu nhà nước trong các khâu then chốt.",
+          "tag": "Radical"
         }
       ]
     },
     {
       "id": 10,
-      "title": "Hợp tác Quốc tế",
-      "description": "Có cơ hội tham gia một hiệp định thương mại tự do lớn.",
+      "title": "Đối ngoại Kinh tế",
+      "description": "Lựa chọn vị thế trong chuỗi giá trị toàn cầu đang biến động.",
       "options": [
         {
-          "text": "Mở cửa hoàn toàn thị trường",
-          "impact": { "growth": 1.8, "inflation": 1.0, "unemployment": -0.5, "satisfaction": 5 },
-          "theory": "Tham gia vào phân công lao động quốc tế và thị trường thế giới."
+          "text": "Hội nhập kinh tế quốc tế sâu rộng",
+          "impact": { "growth": 2.0, "inflation": 1.2, "unemployment": -0.8, "satisfaction": 5 },
+          "theory": "Tận dụng phân công lao động quốc tế để phát triển lực lượng sản xuất.",
+          "tag": "Capitalist"
         },
         {
-          "text": "Bảo hộ các ngành sản xuất trong nước",
-          "impact": { "growth": 0.5, "inflation": 0.5, "unemployment": -0.2, "satisfaction": 10 },
-          "theory": "Xây dựng nền kinh tế độc lập tự chủ, tránh phụ thuộc tư bản nước ngoài."
+          "text": "Xây dựng kinh tế độc lập tự chủ",
+          "impact": { "growth": 0.5, "inflation": 0.8, "unemployment": -0.2, "satisfaction": 12 },
+          "theory": "Bảo vệ chủ quyền kinh tế, tránh phụ thuộc vào tư bản nước ngoài.",
+          "tag": "Marxist"
+        },
+        {
+          "text": "Hợp tác đa phương chọn lọc",
+          "impact": { "growth": 1.2, "inflation": 0.5, "unemployment": -0.5, "satisfaction": 8 },
+          "theory": "Linh hoạt trong quan hệ đối ngoại để tối ưu hóa lợi ích quốc gia.",
+          "tag": "Reformist"
+        },
+        {
+          "text": "Tập trung xuất khẩu chủ lực",
+          "impact": { "growth": 1.5, "inflation": 1.0, "unemployment": -0.4, "satisfaction": -2 },
+          "theory": "Định hướng sản xuất theo nhu cầu thị trường thế giới.",
+          "tag": "Technocratic"
         }
       ]
     }
   ],
   "rankings": [
     {
-      "id": "ideal",
-      "title": "Xã hội Phồn vinh & Công bằng",
-      "condition": { "growth": 6, "satisfaction": 70, "inflation": 4 },
-      "description": "Bạn đã khéo léo kết hợp giữa phát triển lực lượng sản xuất và hoàn thiện quan hệ sản xuất XHCN."
+      "id": "marxist_ideal",
+      "title": "Chủ nghĩa Xã hội Hiện đại",
+      "condition": { "growth": 6, "satisfaction": 75, "inflation": 5 },
+      "description": "Bạn đã thành công trong việc xây dựng một xã hội cân bằng giữa tăng trưởng và công bằng. Quan hệ sản xuất được điều chỉnh phù hợp với trình độ phát triển của lực lượng sản xuất.",
+      "achievement": "Kiên định lập trường"
     },
     {
-      "id": "capitalist",
-      "title": "Bất bình đẳng Sâu sắc",
-      "condition": { "growth": 7, "satisfaction": 40 },
-      "description": "Kinh tế tăng trưởng nóng nhưng mâu thuẫn giai cấp gay gắt do bỏ quên an sinh xã hội."
+      "id": "capitalist_utopia",
+      "title": "Cường quốc Kinh tế Tư bản",
+      "condition": { "growth": 8, "satisfaction": 40 },
+      "description": "Nền kinh tế phát triển thần tốc nhưng phải trả giá bằng sự bất bình đẳng sâu sắc và mâu thuẫn xã hội tiềm tàng.",
+      "achievement": "Triết lý Tư bản"
     },
     {
-      "id": "crisis",
-      "title": "Khủng hoảng Tổng lực",
-      "condition": { "growth": 2, "inflation": 10 },
-      "description": "Lạm phát phi mã và tăng trưởng trì trệ đã đưa nền kinh tế vào ngõ cụt."
+      "id": "socialist_reform",
+      "title": "Nhà Cải cách Linh hoạt",
+      "condition": { "growth": 5, "satisfaction": 65 },
+      "description": "Bạn đã chọn con đường trung dung, linh hoạt điều tiết thị trường nhưng vẫn giữ vững an sinh xã hội.",
+      "achievement": "Đổi mới sáng tạo"
+    },
+    {
+      "id": "radical_commune",
+      "title": "Xã hội Lý tưởng Sơ khai",
+      "condition": { "growth": 2, "satisfaction": 80 },
+      "description": "Lòng dân đồng thuận tuyệt đối vì sự công bằng, nhưng nền kinh tế thiếu động lực tăng trưởng do kìm hãm quy luật thị trường.",
+      "achievement": "Lý tưởng hóa"
+    },
+    {
+      "id": "hyper_inflation",
+      "title": "Cơn lốc Lạm phát",
+      "condition": { "inflation": 12 },
+      "description": "Việc in tiền và trợ giá quá mức đã phá hủy giá trị đồng tiền, đẩy xã hội vào vòng xoáy khủng hoảng.",
+      "achievement": "Thảm họa tiền tệ"
+    },
+    {
+      "id": "unemployment_crisis",
+      "title": "Đội quân Thất nghiệp",
+      "condition": { "unemployment": 10 },
+      "description": "Các chính sách thắt chặt và thiếu đầu tư đã tạo ra một lực lượng lao động dư thừa khổng lồ, đe dọa ổn định chính trị.",
+      "achievement": "Khủng hoảng lao động"
+    },
+    {
+      "id": "stagnation",
+      "title": "Trì trệ Kinh tế",
+      "condition": { "growth": 1 },
+      "description": "Xã hội dường như đứng yên. Mọi nguồn lực bị đóng băng trong các cấu trúc cũ kỹ, thiếu sức sống.",
+      "achievement": "Thời kỳ trì trệ"
+    },
+    {
+      "id": "technocracy",
+      "title": "Xã hội Kỹ trị",
+      "condition": { "satisfaction": 50 },
+      "description": "Chính sách được điều hành chính xác nhưng thiếu hơi thở cuộc sống, biến con người thành những bánh răng trong cỗ máy sản xuất.",
+      "achievement": "Bàn tay sắt"
+    },
+    {
+      "id": "failed_state",
+      "title": "Sụp đổ Hệ thống",
+      "condition": { "growth": 0, "satisfaction": 20 },
+      "description": "Mọi nỗ lực điều hành đều thất bại. Niềm tin xã hội tiêu tan, nền kinh tế tan vỡ.",
+      "achievement": "Kịch bản tồi tệ"
+    },
+    {
+      "id": "general",
+      "title": "Nền Kinh tế Đang chuyển đổi",
+      "condition": {},
+      "description": "Bạn đã hoàn thành nhiệm kỳ với một kết quả chấp nhận được. Xã hội vẫn đang tìm kiếm một mô hình phát triển tối ưu hơn.",
+      "achievement": "Người thực thi"
     }
   ]
 }
