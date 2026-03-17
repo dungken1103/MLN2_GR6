@@ -1,0 +1,205 @@
+{
+  "initialStats": {
+    "growth": 5.0,
+    "inflation": 2.5,
+    "unemployment": 4.0,
+    "satisfaction": 60
+  },
+  "scenarios": [
+    {
+      "id": 1,
+      "title": "Vấn đề Tiền lương",
+      "description": "Các tổ chức công đoàn đang yêu cầu tăng lương tối thiểu do chi phí sinh hoạt tăng cao. Bạn quyết định thế nào?",
+      "options": [
+        {
+          "text": "Tăng lương mạnh (15%)",
+          "impact": { "growth": -0.5, "inflation": 1.5, "unemployment": 1.0, "satisfaction": 15 },
+          "theory": "Bảo vệ hàng hóa sức lao động, nhưng gây áp lực lạm phát chi phí đẩy."
+        },
+        {
+          "text": "Tăng lương nhẹ (5%)",
+          "impact": { "growth": 0.2, "inflation": 0.5, "unemployment": 0.2, "satisfaction": 5 },
+          "theory": "Cân bằng giữa tái sản xuất sức lao động và khả năng chi trả của tư bản."
+        },
+        {
+          "text": "Giữ nguyên để thu hút đầu tư",
+          "impact": { "growth": 1.0, "inflation": -0.2, "unemployment": -0.5, "satisfaction": -15 },
+          "theory": "Ưu tiên tích lũy tư bản, nhưng làm trầm trọng thêm mâu thuẫn giai cấp."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Thuế Doanh nghiệp",
+      "description": "Ngân sách đang thiếu hụt cho các dự án hạ tầng công cộng. Bạn sẽ làm gì với thuế thu nhập doanh nghiệp?",
+      "options": [
+        {
+          "text": "Tăng thuế để đầu tư công",
+          "impact": { "growth": 0.5, "inflation": 0.3, "unemployment": 0.2, "satisfaction": 10 },
+          "theory": "Nhà nước điều tiết thặng dư để phát triển lực lượng sản xuất chung."
+        },
+        {
+          "text": "Giảm thuế để kích cầu",
+          "impact": { "growth": 1.2, "inflation": 0.8, "unemployment": -0.4, "satisfaction": 5 },
+          "theory": "Kích thích quá trình tích lũy và mở rộng sản xuất của tư bản tư nhân."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Quản lý Đất đai",
+      "description": "Giá bất động sản tăng phi mã, gây khó khăn cho việc xây dựng nhà máy và nhà ở xã hội.",
+      "options": [
+        {
+          "text": "Thắt chặt sở hữu toàn dân",
+          "impact": { "growth": -0.3, "inflation": -1.0, "unemployment": 0.1, "satisfaction": 12 },
+          "theory": "Hạn chế địa tô tuyệt đối, ưu tiên mục đích sử dụng công cộng."
+        },
+        {
+          "text": "Phát triển thị trường quyền sử dụng",
+          "impact": { "growth": 1.5, "inflation": 1.2, "unemployment": -0.3, "satisfaction": -5 },
+          "theory": "Thúc đẩy lưu thông tư bản nhưng dễ dẫn đến đầu cơ đất đai."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Đầu tư Giáo dục",
+      "description": "Lực lượng lao động thiếu kỹ năng cho các ngành công nghiệp hiện đại.",
+      "options": [
+        {
+          "text": "Miễn phí hoàn toàn giáo dục nghề",
+          "impact": { "growth": 0.8, "inflation": 0.4, "unemployment": -1.0, "satisfaction": 15 },
+          "theory": "Nâng cao chất lượng hàng hóa sức lao động trong dài hạn."
+        },
+        {
+          "text": "Khuyến khích tư nhân hóa giáo dục",
+          "impact": { "growth": 1.2, "inflation": 0.6, "unemployment": -0.2, "satisfaction": -10 },
+          "theory": "Tận dụng nguồn vốn tư nhân nhưng tạo ra sự phân hóa trong tiếp cận tri thức."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Cơ sở Hạ tầng",
+      "description": "Hệ thống đường cao tốc và cảng biển đang quá tải.",
+      "options": [
+        {
+          "text": "Tập trung vốn nhà nước xây dựng",
+          "impact": { "growth": 1.0, "inflation": 0.7, "unemployment": -0.8, "satisfaction": 5 },
+          "theory": "Tạo điều kiện sản xuất chung cho toàn bộ nền kinh tế quốc dân."
+        },
+        {
+          "text": "Hợp tác công tư (PPP)",
+          "impact": { "growth": 1.4, "inflation": 0.3, "unemployment": -0.5, "satisfaction": 2 },
+          "theory": "Xã hội hóa việc đầu tư vào tư liệu sản xuất gián tiếp."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Kiểm soát Giá cả",
+      "description": "Giá xăng dầu thế giới tăng đột ngột, ảnh hưởng đến chi phí sản xuất.",
+      "options": [
+        {
+          "text": "Dùng quỹ bình ổn trợ giá",
+          "impact": { "growth": 0.2, "inflation": -1.5, "unemployment": -0.1, "satisfaction": 10 },
+          "theory": "Vai trò của Nhà nước trong việc bình ổn giá trị trao đổi hàng hóa thiết yếu."
+        },
+        {
+          "text": "Để thị trường tự điều chỉnh",
+          "impact": { "growth": -0.5, "inflation": 2.0, "unemployment": 0.5, "satisfaction": -15 },
+          "theory": "Tôn trọng quy luật giá trị nhưng gây xáo động đời sống xã hội."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "An sinh Xã hội",
+      "description": "Dân số đang già hóa, gây áp lực lên hệ thống hưu trí.",
+      "options": [
+        {
+          "text": "Tăng phúc lợi và bảo hiểm xã hội",
+          "impact": { "growth": -0.4, "inflation": 0.2, "unemployment": 0.1, "satisfaction": 18 },
+          "theory": "Tái phân phối thu nhập quốc dân để bảo đảm công bằng xã hội."
+        },
+        {
+          "text": "Khuyến khích bảo hiểm tư nhân",
+          "impact": { "growth": 0.6, "inflation": 0.1, "unemployment": 0.2, "satisfaction": -5 },
+          "theory": "Thương mại hóa nhu cầu an sinh, giảm gánh nặng ngân sách."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Đổi mới Công nghệ",
+      "description": "Tự động hóa đang thay thế công nhân trong các nhà máy.",
+      "options": [
+        {
+          "text": "Hỗ trợ chuyển đổi nghề nghiệp",
+          "impact": { "growth": 0.5, "inflation": 0.3, "unemployment": -0.5, "satisfaction": 8 },
+          "theory": "Thích ứng quan hệ sản xuất với trình độ mới của lực lượng sản xuất."
+        },
+        {
+          "text": "Đánh thuế 'Robot' để bảo vệ việc làm",
+          "impact": { "growth": -0.8, "inflation": 0.5, "unemployment": 0.2, "satisfaction": 5 },
+          "theory": "Kìm hãm sự phát triển của công cụ lao động để duy trì ổn định tạm thời."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Môi trường",
+      "description": "Ô nhiễm công nghiệp đang đạt mức báo động.",
+      "options": [
+        {
+          "text": "Áp thuế carbon và đóng cửa nhà máy bẩn",
+          "impact": { "growth": -1.0, "inflation": 0.8, "unemployment": 0.5, "satisfaction": 10 },
+          "theory": "Giải quyết mâu thuẫn giữa phát triển kinh tế và bảo vệ môi trường sống."
+        },
+        {
+          "text": "Ưu tiên kinh tế trước, xử lý sau",
+          "impact": { "growth": 1.2, "inflation": 0.2, "unemployment": -0.3, "satisfaction": -12 },
+          "theory": "Chạy theo giá trị trao đổi đơn thuần, bỏ qua giá trị sử dụng của môi trường."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Hợp tác Quốc tế",
+      "description": "Có cơ hội tham gia một hiệp định thương mại tự do lớn.",
+      "options": [
+        {
+          "text": "Mở cửa hoàn toàn thị trường",
+          "impact": { "growth": 1.8, "inflation": 1.0, "unemployment": -0.5, "satisfaction": 5 },
+          "theory": "Tham gia vào phân công lao động quốc tế và thị trường thế giới."
+        },
+        {
+          "text": "Bảo hộ các ngành sản xuất trong nước",
+          "impact": { "growth": 0.5, "inflation": 0.5, "unemployment": -0.2, "satisfaction": 10 },
+          "theory": "Xây dựng nền kinh tế độc lập tự chủ, tránh phụ thuộc tư bản nước ngoài."
+        }
+      ]
+    }
+  ],
+  "rankings": [
+    {
+      "id": "ideal",
+      "title": "Xã hội Phồn vinh & Công bằng",
+      "condition": { "growth": 6, "satisfaction": 70, "inflation": 4 },
+      "description": "Bạn đã khéo léo kết hợp giữa phát triển lực lượng sản xuất và hoàn thiện quan hệ sản xuất XHCN."
+    },
+    {
+      "id": "capitalist",
+      "title": "Bất bình đẳng Sâu sắc",
+      "condition": { "growth": 7, "satisfaction": 40 },
+      "description": "Kinh tế tăng trưởng nóng nhưng mâu thuẫn giai cấp gay gắt do bỏ quên an sinh xã hội."
+    },
+    {
+      "id": "crisis",
+      "title": "Khủng hoảng Tổng lực",
+      "condition": { "growth": 2, "inflation": 10 },
+      "description": "Lạm phát phi mã và tăng trưởng trì trệ đã đưa nền kinh tế vào ngõ cụt."
+    }
+  ]
+}
