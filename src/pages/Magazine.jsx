@@ -37,18 +37,33 @@ function useMagazineBookSize() {
   return state;
 }
 
+const MagazineContext = React.createContext({ isMobile: false });
+
 const Page = React.forwardRef((props, ref) => {
+  const { isMobile } = React.useContext(MagazineContext);
   return (
     <div
       className="magazine-page-inner border-r border-zinc-800/80 shadow-magazine-inner overflow-hidden relative w-full h-full"
       ref={ref}
     >
-      <div className="w-full h-full flex flex-col p-5 sm:p-8 md:p-12 relative text-gray-200 font-sans">
-        {props.children}
+      <div className="w-full h-full flex flex-col p-5 sm:p-8 md:p-12 relative text-gray-200 font-sans overflow-hidden">
+        {/* Scrollable Content Area - Only on Mobile */}
+        <div 
+          className={`flex-1 ${isMobile ? 'overflow-y-auto pr-2 custom-scrollbar mb-10 pb-2' : 'overflow-hidden'}`}
+          onMouseDown={(e) => isMobile && e.stopPropagation()}
+          onMouseUp={(e) => isMobile && e.stopPropagation()}
+          onTouchStart={(e) => isMobile && e.stopPropagation()}
+          onTouchMove={(e) => isMobile && e.stopPropagation()}
+          onTouchEnd={(e) => isMobile && e.stopPropagation()}
+        >
+          {props.children}
+        </div>
+
+        {/* Fixed Footer */}
         {props.number && (
-          <div className="absolute bottom-6 left-0 w-full px-5 sm:px-8 md:px-12 flex justify-between items-center text-zinc-500 text-[10px] sm:text-xs font-sans tracking-widest">
+          <div className={`absolute left-0 w-full px-5 sm:px-8 md:px-12 flex justify-between items-center text-zinc-500 text-[10px] sm:text-xs font-sans tracking-widest ${isMobile ? 'bottom-0 h-14 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-transparent pointer-events-auto' : 'bottom-6'}`}>
             <span>{props.number}</span>
-            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-red-500 transition-colors truncate max-w-[150px] sm:max-w-none">
+            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-red-500 transition-colors truncate max-w-[150px] sm:max-w-none hover:text-red-400">
               mln122-gr6.onrender.com
             </a>
           </div>
@@ -143,7 +158,8 @@ const Magazine = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-0 sm:p-4 lg:p-8 font-sans overflow-x-hidden">
+    <MagazineContext.Provider value={{ isMobile: usePortrait }}>
+      <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-0 sm:p-4 lg:p-8 font-sans overflow-x-hidden">
 
       <div className="mb-6 text-center">
         <h2 className="text-red-600 font-bold tracking-[0.2em] uppercase text-sm mb-2">Hồ Sơ Đặc Biệt: 36 Trang</h2>
@@ -633,16 +649,16 @@ const Magazine = () => {
 
       {/* Page 3: Lời tựa / Bối cảnh */}
       <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={1}>
-        <h2 className="text-xl sm:text-3xl font-bold text-white mb-4 sm:mb-8 font-sans leading-tight">
+        <h2 className="text-3xl font-bold text-white mb-6 font-sans leading-tight">
           Khi màn đêm bao phủ <span className="text-red-500">Đế Quốc Nga</span>
         </h2>
-        <p className="mb-3 sm:mb-4 text-sm sm:text-lg leading-relaxed text-gray-300">
+        <p className="mb-4 leading-relaxed text-gray-300">
           Để hiểu được sự vĩ đại của Chính sách Kinh tế mới (NEP), chúng ta phải nhìn lại điểm xuất phát tăm tối của nước Nga vào đầu thế kỷ 20.
         </p>
-        <p className="text-xs sm:text-base leading-relaxed text-gray-400">
+        <p className="leading-relaxed text-gray-400">
           Chiến tranh thế giới thứ nhất đã vắt kiệt sinh lực của một đế chế nông nghiệp lạc hậu. Hàng triệu thanh niên nông dân bị ném vào các chiến hào đẫm máu. Ở hậu phương, lạm phát phi mã, công nghiệp đình đốn và nạn đói bắt đầu lan rộng khắp các đô thị lớn. Nước Nga Sa Hoàng đang đứng trên bờ vực của sự sụp đổ hoàn toàn.
         </p>
-        <div className="mt-6 sm:mt-8 w-12 h-1 bg-red-600"></div>
+        <div className="mt-8 w-12 h-1 bg-red-600"></div>
       </Page></div>
 
       {/* Page 4: Image WW1 */}
@@ -988,10 +1004,11 @@ const Magazine = () => {
           </div>
         </div>
       </div>
+        </div>
+      </div>
     </div>
-  </div>
-    </div>
-  );
+  </MagazineContext.Provider>
+);
 };
 
 export default Magazine;

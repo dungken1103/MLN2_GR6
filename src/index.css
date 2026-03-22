@@ -53,65 +53,56 @@
   box-sizing: border-box;
 }
 /* Trang PDF: đệm đáy đủ để html2canvas không cắt footer / link */
-.pdf-page .magazine-page-inner > div:last-child {
-  padding-bottom: 1rem;
+.pdf-page .magazine-page-inner > div {
+  padding-bottom: 2rem !important;
 }
 
 /*
- * Trang văn bản PDF: phóng chữ ~ tỉ lệ trang web (hơi giảm nhẹ để chừa chỗ footer).
+ * Trang văn bản PDF: tăng kích thước font để lấp đầy không gian A4 landscape (1123px)
  */
-.pdf-page:has(.magazine-page-inner) .magazine-text-column {
-  font-size: 28px !important;
+.pdf-page .magazine-page-inner {
+  font-size: 34px !important;
   line-height: 1.62 !important;
-  padding-bottom: 1rem !important;
 }
-.pdf-page:has(.magazine-page-inner) .magazine-text-column h2 {
-  font-size: 2.65rem !important;
+
+.pdf-page .magazine-page-inner h2 {
+  font-size: 3.5rem !important;
   line-height: 1.12 !important;
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1.75rem !important;
+  color: white !important;
 }
-.pdf-page:has(.magazine-page-inner) .magazine-text-column h3 {
-  font-size: 1.85rem !important;
+
+.pdf-page .magazine-page-inner h3 {
+  font-size: 2.65rem !important;
   line-height: 1.22 !important;
-  margin-bottom: 1rem !important;
+  margin-bottom: 1.5rem !important;
 }
-.pdf-page:has(.magazine-page-inner) .magazine-text-column p {
-  margin-bottom: 0.95rem !important;
+
+.pdf-page .magazine-page-inner p {
+  margin-bottom: 1.25rem !important;
 }
 
 /* Footer PDF: xếp cột, URL xuống dòng đầy đủ — tránh cắt nửa link */
-.pdf-print-root .pdf-page:has(.magazine-page-inner) .magazine-page-footer {
+.pdf-print-root .pdf-page .magazine-page-inner .absolute.bottom-6,
+.pdf-print-root .pdf-page .magazine-page-inner .absolute.bottom-0 {
+  position: static !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
   justify-content: flex-start !important;
-  gap: 0.4rem !important;
-  flex-shrink: 0 !important;
-  font-size: 13px !important;
-  line-height: 1.4 !important;
-  letter-spacing: 0.04em !important;
-  padding-top: 0.75rem !important;
-  padding-bottom: 0.5rem !important;
-  margin-top: 0.5rem !important;
-  overflow: visible !important;
+  gap: 0.5rem !important;
+  font-size: 16px !important;
+  padding: 1.5rem 0 !important;
+  margin-top: auto !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
-.pdf-print-root .pdf-page:has(.magazine-page-inner) .magazine-page-footer span {
-  text-align: left !important;
-}
-.pdf-print-root .pdf-page:has(.magazine-page-inner) .magazine-footer-link {
+
+.pdf-print-root .pdf-page .magazine-page-inner a {
   display: block !important;
   width: 100% !important;
-  max-width: 100% !important;
-  white-space: normal !important;
   word-break: break-all !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
   text-align: right !important;
-  font-size: 12px !important;
-  line-height: 1.35 !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
-  padding: 0.15rem 0 !important;
+  font-size: 14px !important;
 }
 
 /* —— Magazine viewer (route /linhvodanh2004) —— */
@@ -164,4 +155,28 @@
   pointer-events: none;
   box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Custom Scrollbar for Magazine Content */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(220, 38, 38, 0.25);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 38, 38, 0.45);
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(220, 38, 38, 0.25) transparent;
 }
