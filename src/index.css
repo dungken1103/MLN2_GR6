@@ -43,23 +43,125 @@
   @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }
 
-/* PDF Export Styles */
-.pdf-page p {
-  font-size: 30px !important;
-  line-height: 1.5 !important;
-  margin-bottom: 30px !important;
+/* PDF export: giữ tỉ lệ gần với web (A4 ngang ~1123×794px), không ép font quá lớn — tránh cắt footer / bìa sau */
+.pdf-page {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
-.pdf-page h2 {
-  font-size: 60px !important;
-  margin-bottom: 40px !important;
-  line-height: 1.1 !important;
+.pdf-page * {
+  box-sizing: border-box;
 }
-.pdf-page h3 {
-  font-size: 44px !important;
-  margin-bottom: 30px !important;
-  line-height: 1.2 !important;
+/* Trang PDF: đệm đáy đủ để html2canvas không cắt footer / link */
+.pdf-page .magazine-page-inner > div:last-child {
+  padding-bottom: 1rem;
 }
-.pdf-page .flex-col {
-  justify-content: center !important;
-  padding: 50px !important;
+
+/*
+ * Trang văn bản PDF: phóng chữ ~ tỉ lệ trang web (hơi giảm nhẹ để chừa chỗ footer).
+ */
+.pdf-page:has(.magazine-page-inner) .magazine-text-column {
+  font-size: 28px !important;
+  line-height: 1.62 !important;
+  padding-bottom: 1rem !important;
+}
+.pdf-page:has(.magazine-page-inner) .magazine-text-column h2 {
+  font-size: 2.65rem !important;
+  line-height: 1.12 !important;
+  margin-bottom: 1.25rem !important;
+}
+.pdf-page:has(.magazine-page-inner) .magazine-text-column h3 {
+  font-size: 1.85rem !important;
+  line-height: 1.22 !important;
+  margin-bottom: 1rem !important;
+}
+.pdf-page:has(.magazine-page-inner) .magazine-text-column p {
+  margin-bottom: 0.95rem !important;
+}
+
+/* Footer PDF: xếp cột, URL xuống dòng đầy đủ — tránh cắt nửa link */
+.pdf-print-root .pdf-page:has(.magazine-page-inner) .magazine-page-footer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 0.4rem !important;
+  flex-shrink: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.04em !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.5rem !important;
+  margin-top: 0.5rem !important;
+  overflow: visible !important;
+}
+.pdf-print-root .pdf-page:has(.magazine-page-inner) .magazine-page-footer span {
+  text-align: left !important;
+}
+.pdf-print-root .pdf-page:has(.magazine-page-inner) .magazine-footer-link {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  word-break: break-all !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-align: right !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  padding: 0.15rem 0 !important;
+}
+
+/* —— Magazine viewer (route /linhvodanh2004) —— */
+.magazine-shell {
+  font-family: 'Inter', system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(127, 29, 29, 0.18), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(24, 24, 27, 0.9), transparent),
+    linear-gradient(180deg, #09090b 0%, #0c0c0e 40%, #09090b 100%);
+}
+
+.magazine-flipbook {
+  filter: drop-shadow(0 32px 64px rgba(0, 0, 0, 0.55));
+}
+
+@media (max-width: 767px) {
+  .magazine-flipbook {
+    filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.5));
+  }
+  .magazine-viewport {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}
+
+.magazine-flipbook .stf__block {
+  border-radius: 2px;
+}
+
+.magazine-page-inner {
+  background: linear-gradient(165deg, #18181b 0%, #121214 45%, #0f0f11 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Cuộn nội dung trong trang (mobile / trang dài) */
+.magazine-page-body::-webkit-scrollbar {
+  width: 5px;
+}
+.magazine-page-body::-webkit-scrollbar-thumb {
+  background: rgba(220, 38, 38, 0.35);
+  border-radius: 6px;
+}
+.magazine-page-body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.magazine-image-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }

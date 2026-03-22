@@ -1,20 +1,62 @@
-import React, { useRef, useState } from 'react';
-import html2pdf from 'html2pdf.js';
+import React, { useRef, useEffect, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import '../index.css';
+
+/** Kích thước 1 trang + chế độ portrait (1 trang/màn hình) cho mobile */
+function useMagazineBookSize() {
+  const [state, setState] = useState(() => ({
+    width: 636,
+    height: 450,
+    usePortrait: false,
+  }));
+
+  useEffect(() => {
+    const update = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const isSmall = vw < 768;
+      if (isSmall) {
+        const sidePad = vw < 400 ? 16 : 24;
+        const pageW = Math.min(636, Math.max(280, vw - sidePad));
+        // Tránh trang quá thấp (tỉ lệ 636:450 trên màn hẹp → ~200px, cắt hết chữ):
+        // dùng chiều cao tối thiểu theo viewport, vẫn giới hạn max để không vỡ layout.
+        const aspectH = Math.round((pageW * 450) / 636);
+        const minH = Math.min(580, Math.max(340, Math.round(vh * 0.62)));
+        const pageH = Math.max(aspectH, minH);
+        setState({ width: pageW, height: pageH, usePortrait: true });
+      } else {
+        setState({ width: 636, height: 450, usePortrait: false });
+      }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  return state;
+}
 
 const Page = React.forwardRef((props, ref) => {
   return (
     <div
-      className="bg-neutral-900 border-r border-neutral-800 shadow-[inset_-10px_0px_20px_rgba(0,0,0,0.5)] overflow-hidden relative w-full h-full"
+      className="magazine-page-inner border-r border-zinc-800/80 shadow-magazine-inner overflow-hidden relative w-full h-full"
       ref={ref}
     >
-      <div className="w-full h-full flex flex-col p-8 md:p-12 relative text-gray-200 font-sans">
-        {props.children}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-700 via-red-500 to-transparent opacity-90" aria-hidden />
+      <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-red-600/15 rounded-tr-md pointer-events-none" aria-hidden />
+      <div className="magazine-text-column flex h-full w-full flex-col px-4 pb-5 pt-9 font-inter text-[16px] leading-[1.72] text-zinc-200 sm:px-7 sm:pb-6 sm:pt-10 sm:text-[17px] md:px-11 md:pb-7">
+        <div className="magazine-page-body min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain [-webkit-overflow-scrolling:touch] [&_h2]:font-outfit [&_h2]:tracking-tight [&_h3]:font-outfit [&_h3]:tracking-wide">
+          {props.children}
+        </div>
         {props.number && (
-          <div className="absolute bottom-6 left-0 w-full px-8 md:px-12 flex justify-between items-center text-zinc-500 text-xs font-sans tracking-widest">
-            <span>{props.number}</span>
-            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-red-500 transition-colors">
+          <div className="magazine-page-footer mt-auto flex shrink-0 flex-col gap-1.5 border-t border-zinc-800/90 pt-3 text-[10px] font-medium uppercase tracking-[0.18em] text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pt-4 sm:text-xs sm:tracking-[0.2em]">
+            <span className="shrink-0 tabular-nums text-red-500/90">Trang {props.number}</span>
+            <a
+              href="https://mln122-gr6.onrender.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="magazine-footer-link break-all text-left normal-case tracking-normal text-red-400/90 [overflow-wrap:anywhere] hover:text-red-300 sm:max-w-[72%] sm:text-right"
+            >
               mln122-gr6.onrender.com
             </a>
           </div>
@@ -26,18 +68,21 @@ const Page = React.forwardRef((props, ref) => {
 
 const ImagePage = React.forwardRef((props, ref) => {
   return (
-    <div className="bg-black overflow-hidden relative w-full h-full" ref={ref}>
+    <div className="bg-zinc-950 overflow-hidden relative w-full h-full magazine-image-frame" ref={ref}>
       <img
         src={props.image}
-        alt={props.caption || "Magazine Page"}
-        className="w-full h-full object-cover absolute inset-0"
+        alt={props.caption || 'Magazine Page'}
+        className="w-full h-full object-cover absolute inset-0 scale-[1.01]"
       />
-      <div className="absolute inset-0 bg-black/20 mix-blend-multiply"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50" />
+      <div className="absolute inset-0 bg-black/15 mix-blend-multiply" />
       {props.caption && (
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-6 pt-20">
-          <p className="text-gray-300 text-sm font-sans italic border-l-2 border-red-600 pl-3">
-            {props.caption}
-          </p>
+        <div className="absolute bottom-0 left-0 right-0 p-5 pt-16 bg-gradient-to-t from-black/95 via-black/55 to-transparent">
+          <div className="backdrop-blur-[2px] rounded-sm border-l-[3px] border-red-500 bg-black/25 pl-4 pr-2 py-2 max-w-[95%]">
+            <p className="text-zinc-100 text-[13px] md:text-sm font-inter leading-snug italic text-balance">
+              {props.caption}
+            </p>
+          </div>
         </div>
       )}
     </div>
@@ -48,7 +93,8 @@ const CoverPage = React.forwardRef((props, ref) => {
   return (
     <div className="bg-black overflow-hidden relative w-full h-full" ref={ref}>
       <img src={props.image} alt="Cover Page" className="w-full h-full object-cover absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8 md:p-12 pb-0 md:pb-0 relative z-10">
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/10 flex flex-col justify-end p-8 md:p-12 relative z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
         {props.children}
       </div>
     </div>
@@ -58,21 +104,25 @@ const CoverPage = React.forwardRef((props, ref) => {
 const Magazine = () => {
   const printRef = useRef();
   const [isGenerating, setIsGenerating] = React.useState(false);
+  const book = useMagazineBookSize();
 
   const handleDownloadPdf = () => {
     setIsGenerating(true);
-    const element = printRef.current;
 
+    // Khớp A4 ngang: ~1123×794px (cùng tỉ lệ với trang flipbook 636×450)
     const opt = {
       margin: 0,
       filename: 'Tap-Chi-NEP-1921.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
+      image: { type: 'jpeg', quality: 0.95 },
       html2canvas: {
-        scale: 1,
+        scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#171717',
-        windowWidth: 1123
+        windowWidth: 1123,
+        windowHeight: 794,
+        scrollY: 0,
+        scrollX: 0
       },
       jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape', compress: true }
     };
@@ -103,50 +153,79 @@ const Magazine = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-4 lg:p-8 font-sans">
+    <div className="magazine-shell min-h-screen flex flex-col items-center justify-center overflow-x-hidden px-3 py-6 font-inter selection:bg-red-900/40 selection:text-red-100 sm:px-6 lg:p-10">
 
-      <div className="mb-6 text-center">
-        <h2 className="text-red-600 font-bold tracking-[0.2em] uppercase text-sm mb-2">Hồ Sơ Đặc Biệt: 36 Trang</h2>
-        <p className="text-gray-500 text-xs mb-4">Sử dụng chuột kéo hoặc click vào góc trang để lật mở</p>
-        <button
-          onClick={handleDownloadPdf}
-          disabled={isGenerating}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded text-sm tracking-wider transition-colors disabled:opacity-50 inline-flex items-center justify-center mx-auto gap-2"
+      <header className="mb-6 w-full max-w-3xl sm:mb-8">
+        <div className="relative rounded-2xl border border-red-900/35 bg-zinc-900/60 backdrop-blur-xl px-6 py-5 shadow-magazine overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-950/30 via-transparent to-transparent pointer-events-none" />
+          <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-center sm:text-left">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-red-500/90 mb-1.5">Tạp chí điện tử</p>
+              <h1 className="font-outfit text-lg sm:text-xl font-bold text-white tracking-wide">
+                Hồ sơ đặc biệt <span className="text-red-500">·</span> 36 trang
+              </h1>
+              <p className="text-zinc-500 text-xs mt-1.5 max-w-md">
+                Kéo góc trang hoặc nhấn để lật — chủ đề Kinh tế chính trị Mác — Lênin
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleDownloadPdf}
+              disabled={isGenerating}
+              className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-red-600 to-red-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-red-900/40 ring-1 ring-red-500/30 transition hover:from-red-500 hover:to-red-600 hover:shadow-red-800/50 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              {isGenerating ? (
+                <>
+                  <svg className="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden>
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Đang tạo PDF...
+                </>
+              ) : (
+                <>
+                  <svg className="h-4 w-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Tải PDF
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="magazine-viewport w-full max-w-[min(100vw-1.5rem,780px)] sm:max-w-none">
+        <p className="mb-3 px-1 text-center text-[11px] leading-snug text-zinc-500 md:hidden" aria-live="polite">
+          Một trang / màn hình — cuộn trong trang nếu nội dung dài; chạm góc để lật trang
+        </p>
+        <HTMLFlipBook
+          key={`flip-${book.usePortrait}-${book.width}-${book.height}`}
+          width={book.width}
+          height={book.height}
+          size="stretch"
+          minWidth={book.usePortrait ? book.width : 420}
+          maxWidth={book.usePortrait ? book.width : 780}
+          minHeight={book.usePortrait ? book.height : 315}
+          maxHeight={book.usePortrait ? book.height : 550}
+          maxShadowOpacity={0.5}
+          showCover={true}
+          usePortrait={book.usePortrait}
+          mobileScrollSupport={true}
+          className="magazine-flipbook mx-auto w-full max-w-full"
         >
-          {isGenerating ? (
-            <>
-              <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Đang tạo PDF...
-            </>
-          ) : 'Tải xuống PDF'}
-        </button>
-      </div>
-
-      <HTMLFlipBook
-        width={636}
-        height={450}
-        size="stretch"
-        minWidth={420}
-        maxWidth={780}
-        minHeight={315}
-        maxHeight={550}
-        maxShadowOpacity={0.5}
-        showCover={true}
-        mobileScrollSupport={true}
-        className="magazine-flipbook mx-auto"
-      >
         {/* Page 1: Cover */}
         <div className="bg-black overflow-hidden relative w-full h-full">
           <img src="/images/nep-cover.png" alt="Cover Page" className="w-full h-full object-cover absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10">
-            <div className="absolute bottom-10 left-10 border-l-[10px] border-red-600 pl-8">
-              <h1 className="text-7xl md:text-8xl font-black text-white uppercase leading-none drop-shadow-2xl flex items-baseline gap-4">
-                NEP <span className="text-red-600">1921</span>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/5 z-10" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_20%_80%,rgba(220,38,38,0.15),transparent)] z-10 pointer-events-none" />
+          <div className="absolute bottom-8 left-8 right-8 md:bottom-12 md:left-12 z-20">
+            <p className="font-outfit text-[10px] md:text-xs font-semibold uppercase tracking-[0.45em] text-white mb-3">Kinh tế chính trị · Số đặc biệt</p>
+            <div className="border-l-[6px] border-red-500 pl-6 md:pl-8 py-1">
+              <h1 className="font-outfit text-5xl sm:text-6xl md:text-7xl font-black text-white uppercase leading-[0.95] drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] flex flex-wrap items-baseline gap-3 md:gap-4">
+                NEP <span className="text-red-500">1921</span>
               </h1>
-              <p className="text-white font-bold tracking-[0.4em] uppercase text-xl drop-shadow-lg mt-4 opacity-90">
+              <p className="font-outfit text-white/95 font-semibold tracking-[0.25em] uppercase text-sm md:text-base mt-4 max-w-lg leading-relaxed">
                 Sự lùi bước vĩ đại của Lênin
               </p>
             </div>
@@ -155,38 +234,43 @@ const Magazine = () => {
 
         {/* Page 2: Inside Cover (Credits) */}
         <Page>
-          <div className="flex flex-col h-full justify-center items-center text-center">
-            <div className="w-16 h-16 rounded-full border-2 border-red-600 flex items-center justify-center text-xl font-black mb-6 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+          <div className="flex flex-col h-full justify-center items-center text-center px-2">
+            <div className="w-20 h-20 rounded-2xl border border-red-500/40 bg-gradient-to-br from-red-950/50 to-zinc-900/80 flex items-center justify-center text-2xl font-black mb-5 text-red-400 font-outfit shadow-lg shadow-red-950/40 ring-1 ring-red-500/20">
               G6
             </div>
-            <h3 className="uppercase tracking-[0.3em] text-lg font-bold text-white mb-2">Ban Biên Tập</h3>
-            <p className="text-sm text-gray-400 mb-8 font-light">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
-            
-            <div className="bg-transparent p-2 rounded-lg shadow-xl mb-6 transform transition-transform hover:scale-105">
-              <img src="/images/qrcode.png" alt="QR Code" className="w-32 h-32 object-contain" />
+            <h3 className="font-outfit uppercase tracking-[0.28em] text-base font-bold text-white mb-1">Ban biên tập</h3>
+            <p className="text-sm text-zinc-500 mb-6 font-normal">Chuyên đề Kinh tế Chính trị Mác — Lênin</p>
+
+            <div className="rounded-2xl border border-zinc-700/80 bg-zinc-900/50 p-4 mb-5 shadow-inner shadow-black/40 ring-1 ring-white/5 transition-transform hover:scale-[1.02]">
+              <img src="/images/qrcode2.jpg" alt="QR truy cập dự án" className="w-28 h-28 md:w-32 md:h-32 object-contain mx-auto" />
             </div>
-            
-            <p className="text-red-500 font-bold tracking-widest uppercase text-xs mb-2">Quét mã để truy cập</p>
-            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-xs hover:text-white transition-colors">
+
+            <p className="text-red-400 font-semibold tracking-[0.2em] uppercase text-[10px] mb-1.5">Quét mã để truy cập</p>
+            <a
+              href="https://mln122-gr6.onrender.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-400 text-xs hover:text-red-300 transition-colors underline-offset-4 hover:underline"
+            >
               mln122-gr6.onrender.com
             </a>
-            
-            <p className="text-xs text-zinc-600 mt-12">Xuất bản: Tháng 3 / 2026</p>
+
+            <p className="text-[11px] text-zinc-600 mt-10 tracking-wide">Xuất bản · Tháng 3 / 2026</p>
           </div>
         </Page>
 
         {/* Page 3: Lời tựa / Bối cảnh */}
         <Page number={1}>
-          <h2 className="text-3xl font-bold text-white mb-8 font-sans leading-tight">
-            Khi màn đêm bao phủ <span className="text-red-500">Đế Quốc Nga</span>
+          <h2 className="font-outfit text-2xl md:text-3xl font-bold text-white mb-6 leading-snug">
+            Khi màn đêm bao phủ <span className="text-red-500">Đế quốc Nga</span>
           </h2>
-          <p className="mb-4 text-lg leading-relaxed text-gray-300">
+          <p className="mb-4 text-[15px] md:text-base leading-relaxed text-zinc-300">
             Để hiểu được sự vĩ đại của Chính sách Kinh tế mới (NEP), chúng ta phải nhìn lại điểm xuất phát tăm tối của nước Nga vào đầu thế kỷ 20.
           </p>
-          <p className="leading-relaxed text-gray-400">
+          <p className="leading-relaxed text-zinc-400">
             Chiến tranh thế giới thứ nhất đã vắt kiệt sinh lực của một đế chế nông nghiệp lạc hậu. Hàng triệu thanh niên nông dân bị ném vào các chiến hào đẫm máu. Ở hậu phương, lạm phát phi mã, công nghiệp đình đốn và nạn đói bắt đầu lan rộng khắp các đô thị lớn. Nước Nga Sa Hoàng đang đứng trên bờ vực của sự sụp đổ hoàn toàn.
           </p>
-          <div className="mt-8 w-12 h-1 bg-red-600"></div>
+          <div className="mt-8 h-1 w-16 rounded-full bg-gradient-to-r from-red-600 to-red-800/50" />
         </Page>
 
         {/* Page 4: Image WW1 */}
@@ -492,42 +576,51 @@ const Magazine = () => {
 
         {/* Page 35: Inside Back Cover (Blank/Epilogue) */}
         <Page>
-          <div className="flex flex-col h-full justify-center items-center text-center opacity-40">
-            <div className="w-24 h-px bg-red-600 mb-8"></div>
-            <h3 className="uppercase tracking-widest text-lg font-bold text-white mb-4">Kết Luận</h3>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
-              Sự linh hoạt, thực tế và lòng dũng cảm tự phê bình của V.I. Lênin trong việc đề ra NEP mãi mãi là bài học kinh điển của môn Kinh tế Chính trị Mác - Lênin.
+          <div className="flex flex-col h-full justify-center items-center text-center px-3">
+            <div className="h-px w-20 bg-gradient-to-r from-transparent via-red-600/80 to-transparent mb-8" />
+            <h3 className="font-outfit uppercase tracking-[0.35em] text-sm font-bold text-red-400/90 mb-5">Kết luận</h3>
+            <p className="text-sm text-zinc-400 leading-relaxed max-w-sm text-balance">
+              Sự linh hoạt, thực tế và lòng dũng cảm tự phê bình của V.I. Lênin trong việc đề ra NEP mãi mãi là bài học kinh điển của môn Kinh tế Chính trị Mác — Lênin.
             </p>
-            <div className="w-24 h-px bg-red-600 mt-8"></div>
+            <div className="h-px w-20 bg-gradient-to-r from-transparent via-red-600/80 to-transparent mt-8" />
           </div>
         </Page>
 
         {/* Page 36: Back Cover */}
         <div className="bg-black relative w-full h-full overflow-hidden">
-          <img src="/images/nep-cover.png" alt="Back Cover" className="w-full h-full object-cover absolute inset-0 opacity-50 uppercase" />
-          <div className="absolute inset-0 flex flex-col justify-center items-center z-10">
-            <div className="bg-black/60 backdrop-blur-md p-8 py-12 border border-white/10 flex flex-col items-center max-w-lg w-full text-center">
-              {/* <h2 className="text-5xl font-black text-red-600 mb-4 tracking-[0.3em] drop-shadow-lg">HẾT</h2>
-              <div className="w-24 h-px bg-white/20 mb-6"></div> */}
-              <p className="text-gray-400 text-xs uppercase tracking-[0.4em] mb-3">Một sản phẩm của</p>
-              <p className="text-white font-bold text-3xl mb-6 tracking-wider">Nhóm 6</p>
-              
-              <div className="bg-transparent p-2 rounded-xl shadow-2xl mb-4 transform transition-transform hover:scale-105 border-4 border-red-600/20">
-                <img src="/images/qrcode.png" alt="QR Code" className="w-28 h-28 object-contain" />
-              </div>
-              
-              <p className="text-red-500 font-bold tracking-[0.2em] uppercase text-xs mb-2">Quét mã để truy cập</p>
-              <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-300 text-xs hover:text-white font-medium tracking-wide transition-colors mb-6 bg-zinc-900/80 px-4 py-1.5 rounded-full border border-zinc-800">
-                mln122-gr6.onrender.com
-              </a>
-
-              <p className="text-gray-400 text-xs max-w-xs leading-relaxed text-center opacity-80 italic">
-                Mô phỏng tạp chí tương tác 36 trang phục vụ bộ môn Kinh tế Chính trị Mác - Lênin.
+          <img src="/images/nep-cover.png" alt="Bìa sau" className="w-full h-full object-cover absolute inset-0 opacity-45" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/80" />
+          <div className="absolute inset-0 flex flex-col justify-center items-center z-10 p-3 sm:p-4">
+            <div className="w-full max-w-[min(100%,22rem)] flex flex-col items-center text-center rounded-2xl border border-red-900/40 bg-zinc-950/80 backdrop-blur-xl px-5 py-6 sm:p-8 shadow-magazine ring-1 ring-white/5">
+              <p className="font-outfit text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-1.5 w-full text-center">
+                Một sản phẩm của
               </p>
+              <p className="font-outfit text-3xl font-bold text-white tracking-wide mb-6 w-full text-center">Nhóm 6</p>
+
+              <div className="rounded-xl border border-zinc-700/70 bg-black/40 p-2.5 ring-1 ring-red-500/10 shrink-0">
+                <img src="/images/qrcode2.jpg" alt="QR truy cập" className="w-[7.25rem] h-[7.25rem] sm:w-28 sm:h-28 object-contain mx-auto" />
+              </div>
+
+              <div className="mt-4 flex w-full flex-col items-center gap-2">
+                <p className="w-full text-center text-red-400 font-semibold uppercase text-[10px] leading-snug tracking-[0.08em] px-2">
+                  Quét mã để truy cập
+                </p>
+                <a
+                  href="https://mln122-gr6.onrender.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mx-auto inline-flex max-w-full items-center justify-center rounded-full border border-zinc-600 bg-zinc-900/95 px-4 py-2 text-center text-[11px] font-medium text-zinc-200 transition-colors hover:border-red-500/40 hover:text-white"
+                >
+                  mln122-gr6.onrender.com
+                </a>
+              </div>
+
+              
             </div>
           </div>
         </div>
       </HTMLFlipBook>
+      </div>
 
       {/* PDF Container - Hidden but accessible */}
       <div
@@ -540,7 +633,7 @@ const Magazine = () => {
           zIndex: -1000
         }}
       >
-        <div ref={printRef} className="bg-neutral-900 text-[#d4d4d8] block w-[1123px]">
+        <div ref={printRef} className="pdf-print-root bg-neutral-900 text-[#d4d4d8] block w-[1123px]">
 
           {/* Page 1: Cover */}
           <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900">
@@ -569,7 +662,7 @@ const Magazine = () => {
             <p className="text-sm text-gray-400 mb-8 font-light">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
             
             <div className="bg-transparent p-2 rounded-lg shadow-xl mb-4 transform transition-transform hover:scale-105 inline-block">
-              <img src="/images/qrcode.png" alt="QR Code" className="w-32 h-32 object-contain" />
+              <img src="/images/qrcode2.jpg" alt="QR Code" className="w-32 h-32 object-contain" />
             </div>
             
             <p className="text-red-500 font-bold tracking-widest uppercase text-xs mb-2">Quét mã để truy cập</p>
@@ -908,30 +1001,32 @@ const Magazine = () => {
             </div>
           </Page></div>
 
-          {/* Page 36: Back Cover */}
-          <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900">
-            <div className="bg-black relative w-full h-full overflow-hidden">
-              <img src="/images/nep-cover.png" alt="Back Cover" className="w-full h-full object-cover absolute inset-0 opacity-50 uppercase" />
-              <div className="absolute inset-0 flex flex-col justify-center items-center z-10">
-                <div className="bg-black/60 backdrop-blur-md p-12 py-16 border border-white/10 flex flex-col items-center max-w-lg w-full text-center">
-                  {/* <h2 className="text-6xl font-black text-red-600 mb-6 tracking-[0.3em] drop-shadow-lg">HẾT</h2>
-                  <div className="w-24 h-px bg-white/20 mb-8"></div> */}
-                  
-                  <p className="text-gray-400 text-xs uppercase tracking-[0.4em] mb-4 font-medium">Một sản phẩm của</p>
-                  <p className="text-white font-bold text-4xl mb-8 tracking-wider">Nhóm 6</p>
-                  
-                  <div className="bg-transparent p-3 rounded-xl shadow-2xl mb-6 transform transition-transform hover:scale-105 border-4 border-red-600/20">
-                    <img src="/images/qrcode.png" alt="QR Code" className="w-40 h-40 object-contain" />
+          {/* Page 36: Back Cover — cùng layout với bản web, tránh cắt chữ khi in PDF */}
+          <div className="pdf-page pdf-page--cover-back w-[1123px] h-[794px] relative shrink-0 overflow-hidden bg-neutral-900">
+            <div className="relative h-[794px] w-full overflow-hidden bg-black">
+              <img src="/images/nep-cover.png" alt="Bìa sau" className="absolute inset-0 h-full w-full object-cover opacity-45" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-8 py-10">
+                <div className="flex w-full max-w-xl flex-col items-center text-center rounded-2xl border border-red-900/40 bg-zinc-950/85 px-10 py-10 shadow-xl ring-1 ring-white/5">
+                  <p className="mb-2 w-full text-center text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-500">
+                    Một sản phẩm của
+                  </p>
+                  <p className="mb-8 w-full text-center text-4xl font-bold tracking-wide text-white">Nhóm 6</p>
+                  <div className="mb-6 shrink-0 rounded-xl border border-zinc-700/70 bg-black/50 p-3 ring-1 ring-red-500/10">
+                    <img src="/images/qrcode2.jpg" alt="QR" className="mx-auto h-36 w-36 object-contain" />
+                  </div>
+                  <div className="flex w-full flex-col items-center gap-2">
+                    <p className="w-full text-center text-[11px] font-semibold uppercase leading-snug tracking-[0.08em] text-red-400">
+                      Quét mã để truy cập
+                    </p>
+                    <a
+                      href="https://mln122-gr6.onrender.com/"
+                      className="mx-auto inline-flex max-w-full items-center justify-center rounded-full border border-zinc-600 bg-zinc-900 px-5 py-2.5 text-center text-xs font-medium text-zinc-200"
+                    >
+                      mln122-gr6.onrender.com
+                    </a>
                   </div>
                   
-                  <p className="text-red-500 font-bold tracking-[0.2em] uppercase text-sm mb-3">Quét mã để truy cập</p>
-                  <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white font-medium tracking-wide transition-colors mb-8 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800">
-                    mln122-gr6.onrender.com
-                  </a>
-
-                  <p className="text-gray-400 text-sm max-w-xs leading-relaxed text-center opacity-80 italic">
-                    Mô phỏng tạp chí tương tác 36 trang phục vụ bộ môn Kinh tế Chính trị Mác - Lênin.
-                  </p>
                 </div>
               </div>
             </div>
