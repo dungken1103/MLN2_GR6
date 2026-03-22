@@ -1,25 +1,7 @@
 import React, { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 import HTMLFlipBook from 'react-pageflip';
-
-// Global style for PDF rendering to ensure text content doesn't overflow or scale weirdly
-const pdfStyles = `
-  .pdf-page p {
-    font-size: 32px !important;
-    line-height: 1.4 !important;
-    margin-bottom: 30px !important;
-  }
-  .pdf-page h2 {
-    font-size: 64px !important;
-    margin-bottom: 48px !important;
-    line-height: 1.1 !important;
-  }
-  .pdf-page h3 {
-    font-size: 48px !important;
-    margin-bottom: 36px !important;
-    line-height: 1.2 !important;
-  }
-`;
+import '../index.css';
 
 const Page = React.forwardRef((props, ref) => {
   return (

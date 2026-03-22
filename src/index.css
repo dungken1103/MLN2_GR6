@@ -42,3 +42,24 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }
+
+/* PDF Export Styles */
+.pdf-page p {
+  font-size: 30px !important;
+  line-height: 1.5 !important;
+  margin-bottom: 30px !important;
+}
+.pdf-page h2 {
+  font-size: 60px !important;
+  margin-bottom: 40px !important;
+  line-height: 1.1 !important;
+}
+.pdf-page h3 {
+  font-size: 44px !important;
+  margin-bottom: 30px !important;
+  line-height: 1.2 !important;
+}
+.pdf-page .flex-col {
+  justify-content: center !important;
+  padding: 50px !important;
+}
