@@ -30,8 +30,11 @@ const Page = React.forwardRef((props, ref) => {
       <div className="w-full h-full flex flex-col p-8 md:p-12 relative text-gray-200 font-sans">
         {props.children}
         {props.number && (
-          <div className="absolute bottom-6 left-0 w-full text-center text-zinc-600 text-xs font-sans tracking-widest">
-            {props.number}
+          <div className="absolute bottom-6 left-0 w-full px-8 md:px-12 flex justify-between items-center text-zinc-500 text-xs font-sans tracking-widest">
+            <span>{props.number}</span>
+            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-red-500 transition-colors">
+              mln122-gr6.onrender.com
+            </a>
           </div>
         )}
       </div>
@@ -170,13 +173,23 @@ const Magazine = () => {
 
         {/* Page 2: Inside Cover (Credits) */}
         <Page>
-          <div className="flex flex-col h-full justify-center items-center text-center opacity-40">
-            <div className="w-16 h-16 rounded-full border-2 border-red-600 flex items-center justify-center text-xl font-black mb-4 text-red-500">
+          <div className="flex flex-col h-full justify-center items-center text-center">
+            <div className="w-16 h-16 rounded-full border-2 border-red-600 flex items-center justify-center text-xl font-black mb-6 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
               G6
             </div>
-            <h3 className="uppercase tracking-widest text-sm font-bold text-white mb-2">Ban Biên Tập</h3>
-            <p className="text-xs text-gray-400">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
-            <p className="text-xs text-gray-500 mt-8">Xuất bản: Tháng 3 / 2026</p>
+            <h3 className="uppercase tracking-[0.3em] text-lg font-bold text-white mb-2">Ban Biên Tập</h3>
+            <p className="text-sm text-gray-400 mb-8 font-light">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
+            
+            <div className="bg-transparent p-2 rounded-lg shadow-xl mb-6 transform transition-transform hover:scale-105">
+              <img src="/images/qrcode.png" alt="QR Code" className="w-32 h-32 object-contain" />
+            </div>
+            
+            <p className="text-red-500 font-bold tracking-widest uppercase text-xs mb-2">Quét mã để truy cập</p>
+            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-xs hover:text-white transition-colors">
+              mln122-gr6.onrender.com
+            </a>
+            
+            <p className="text-xs text-zinc-600 mt-12">Xuất bản: Tháng 3 / 2026</p>
           </div>
         </Page>
 
@@ -511,12 +524,22 @@ const Magazine = () => {
         <div className="bg-black relative w-full h-full overflow-hidden">
           <img src="/images/nep-cover.png" alt="Back Cover" className="w-full h-full object-cover absolute inset-0 opacity-50 uppercase" />
           <div className="absolute inset-0 flex flex-col justify-center items-center z-10">
-            <div className="bg-black/60 backdrop-blur-md p-12 py-16 border border-white/10 flex flex-col items-center max-w-lg w-full">
-              <h2 className="text-6xl font-black text-red-600 mb-6 tracking-[0.3em] drop-shadow-lg">HẾT</h2>
-              <div className="w-24 h-px bg-white/20 mb-10"></div>
-              <p className="text-gray-400 text-xs uppercase tracking-[0.4em] mb-4">Một sản phẩm của</p>
-              <p className="text-white font-bold text-4xl mb-12 tracking-wider">Nhóm 6</p>
-              <p className="text-gray-400 text-sm max-w-xs leading-relaxed text-center opacity-80">
+            <div className="bg-black/60 backdrop-blur-md p-8 py-12 border border-white/10 flex flex-col items-center max-w-lg w-full text-center">
+              {/* <h2 className="text-5xl font-black text-red-600 mb-4 tracking-[0.3em] drop-shadow-lg">HẾT</h2>
+              <div className="w-24 h-px bg-white/20 mb-6"></div> */}
+              <p className="text-gray-400 text-xs uppercase tracking-[0.4em] mb-3">Một sản phẩm của</p>
+              <p className="text-white font-bold text-3xl mb-6 tracking-wider">Nhóm 6</p>
+              
+              <div className="bg-transparent p-2 rounded-xl shadow-2xl mb-4 transform transition-transform hover:scale-105 border-4 border-red-600/20">
+                <img src="/images/qrcode.png" alt="QR Code" className="w-28 h-28 object-contain" />
+              </div>
+              
+              <p className="text-red-500 font-bold tracking-[0.2em] uppercase text-xs mb-2">Quét mã để truy cập</p>
+              <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-300 text-xs hover:text-white font-medium tracking-wide transition-colors mb-6 bg-zinc-900/80 px-4 py-1.5 rounded-full border border-zinc-800">
+                mln122-gr6.onrender.com
+              </a>
+
+              <p className="text-gray-400 text-xs max-w-xs leading-relaxed text-center opacity-80 italic">
                 Mô phỏng tạp chí tương tác 36 trang phục vụ bộ môn Kinh tế Chính trị Mác - Lênin.
               </p>
             </div>
@@ -554,17 +577,27 @@ const Magazine = () => {
             </div>
           </div>
 
-          {/* Page 2: Inside Cover (Credits) */}
-          <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page>
-            <div className="flex flex-col h-full justify-center items-center text-center opacity-40">
-              <div className="w-16 h-16 rounded-full border-2 border-red-600 flex items-center justify-center text-xl font-black mb-4 text-red-500">
-                G6
-              </div>
-              <h3 className="uppercase tracking-widest text-sm font-bold text-white mb-2">Ban Biên Tập</h3>
-              <p className="text-xs text-gray-400">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
-              <p className="text-xs text-gray-500 mt-8">Xuất bản: Tháng 3 / 2026</p>
+        {/* Page 2: Inside Cover (Credits) */}
+        <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page>
+          <div className="flex flex-col h-full justify-center items-center text-center">
+            <div className="w-16 h-16 rounded-full border-2 border-red-600 flex items-center justify-center text-xl font-black mb-4 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+              G6
             </div>
-          </Page></div>
+            <h3 className="uppercase tracking-[0.3em] text-lg font-bold text-white mb-2">Ban Biên Tập</h3>
+            <p className="text-sm text-gray-400 mb-8 font-light">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
+            
+            <div className="bg-transparent p-2 rounded-lg shadow-xl mb-4 transform transition-transform hover:scale-105 inline-block">
+              <img src="/images/qrcode.png" alt="QR Code" className="w-32 h-32 object-contain" />
+            </div>
+            
+            <p className="text-red-500 font-bold tracking-widest uppercase text-xs mb-2">Quét mã để truy cập</p>
+            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 text-xs hover:text-white transition-colors">
+              mln122-gr6.onrender.com
+            </a>
+            
+            <p className="text-xs text-zinc-600 mt-8">Xuất bản: Tháng 3 / 2026</p>
+          </div>
+        </Page></div>
 
           {/* Page 3: Lời tựa / Bối cảnh */}
           <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={1}>
@@ -898,12 +931,23 @@ const Magazine = () => {
             <div className="bg-black relative w-full h-full overflow-hidden">
               <img src="/images/nep-cover.png" alt="Back Cover" className="w-full h-full object-cover absolute inset-0 opacity-50 uppercase" />
               <div className="absolute inset-0 flex flex-col justify-center items-center z-10">
-                <div className="bg-black/60 backdrop-blur-md p-12 py-16 border border-white/10 flex flex-col items-center max-w-lg w-full">
-                  <h2 className="text-6xl font-black text-red-600 mb-6 tracking-[0.3em] drop-shadow-lg">HẾT</h2>
-                  <div className="w-24 h-px bg-white/20 mb-10"></div>
-                  <p className="text-gray-400 text-xs uppercase tracking-[0.4em] mb-4">Một sản phẩm của</p>
-                  <p className="text-white font-bold text-4xl mb-12 tracking-wider">Nhóm 6</p>
-                  <p className="text-gray-400 text-sm max-w-xs leading-relaxed text-center opacity-80">
+                <div className="bg-black/60 backdrop-blur-md p-12 py-16 border border-white/10 flex flex-col items-center max-w-lg w-full text-center">
+                  {/* <h2 className="text-6xl font-black text-red-600 mb-6 tracking-[0.3em] drop-shadow-lg">HẾT</h2>
+                  <div className="w-24 h-px bg-white/20 mb-8"></div> */}
+                  
+                  <p className="text-gray-400 text-xs uppercase tracking-[0.4em] mb-4 font-medium">Một sản phẩm của</p>
+                  <p className="text-white font-bold text-4xl mb-8 tracking-wider">Nhóm 6</p>
+                  
+                  <div className="bg-transparent p-3 rounded-xl shadow-2xl mb-6 transform transition-transform hover:scale-105 border-4 border-red-600/20">
+                    <img src="/images/qrcode.png" alt="QR Code" className="w-40 h-40 object-contain" />
+                  </div>
+                  
+                  <p className="text-red-500 font-bold tracking-[0.2em] uppercase text-sm mb-3">Quét mã để truy cập</p>
+                  <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white font-medium tracking-wide transition-colors mb-8 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800">
+                    mln122-gr6.onrender.com
+                  </a>
+
+                  <p className="text-gray-400 text-sm max-w-xs leading-relaxed text-center opacity-80 italic">
                     Mô phỏng tạp chí tương tác 36 trang phục vụ bộ môn Kinh tế Chính trị Mác - Lênin.
                   </p>
                 </div>
