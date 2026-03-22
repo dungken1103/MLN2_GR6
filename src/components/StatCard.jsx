@@ -3,54 +3,65 @@ import { FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
 
 const StatCard = ({ label, value, unit = '%', trend, description }) => {
   const getTrendIcon = () => {
-    if (trend > 0) return <FaArrowUp className="text-red-500 animate-bounce" />;
-    if (trend < 0) return <FaArrowDown className="text-green-500 animate-bounce" />;
-    return <FaMinus className="text-gray-400" />;
+    if (trend > 0) return <FaArrowUp className="text-red-600 animate-pulse" />;
+    if (trend < 0) return <FaArrowDown className="text-slate-400" />;
+    return <FaMinus className="text-slate-300" />;
   };
 
   const getStatusColor = () => {
-    // Logic specific to economic health (e.g., high inflation is usually bad)
     if (label.toLowerCase().includes('lạm phát')) {
-      if (value > 5) return 'text-red-600';
-      if (value > 3) return 'text-yellow-600';
-      return 'text-green-600';
+      if (value > 10) return 'text-red-700';
+      if (value > 5) return 'text-red-500';
+      return 'text-slate-800';
     }
     if (label.toLowerCase().includes('thất nghiệp')) {
-      if (value > 6) return 'text-red-600';
-      if (value > 4) return 'text-yellow-600';
-      return 'text-green-600';
+      if (value > 8) return 'text-red-700';
+      if (value > 5) return 'text-red-500';
+      return 'text-slate-800';
     }
     if (label.toLowerCase().includes('tăng trưởng')) {
-      if (value < 2) return 'text-red-600';
-      if (value < 4) return 'text-yellow-600';
-      return 'text-green-600';
+      if (value < 1) return 'text-red-700';
+      if (value < 3) return 'text-red-500';
+      return 'text-slate-800';
     }
-    return 'text-gray-900';
+    if (label.toLowerCase().includes('lòng dân') || label.toLowerCase().includes('hài lòng')) {
+      if (value < 30) return 'text-red-700';
+      if (value < 50) return 'text-red-500';
+      return 'text-slate-800';
+    }
+    return 'text-slate-900';
   };
 
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/50 transition-all hover:scale-[1.02] hover:shadow-2xl">
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">{label}</h3>
-        {getTrendIcon()}
+    <div className="bg-[#F5F5F5] border-2 border-slate-900 p-5 relative overflow-hidden group hover:bg-white transition-colors">
+      {/* Decorative Corner */}
+      <div className="absolute top-0 right-0 w-8 h-8 bg-slate-900 clip-path-triangle translate-x-4 -translate-y-4 group-hover:bg-red-600 transition-colors" />
+      
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{label}</h3>
+        <div className="text-xs">
+          {getTrendIcon()}
+        </div>
       </div>
-      <div className="flex items-baseline space-x-1">
-        <span className={`text-4xl font-bold tracking-tight ${getStatusColor()}`}>
+
+      <div className="flex items-baseline gap-1">
+        <span className={`text-3xl font-black tracking-tighter ${getStatusColor()}`}>
           {value.toFixed(1)}
         </span>
-        <span className="text-xl font-medium text-gray-400">{unit}</span>
+        <span className="text-xs font-bold text-slate-400 uppercase">{unit}</span>
       </div>
-      <div className="mt-4">
-        <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+
+      <div className="mt-4 space-y-2">
+        <div className="w-full bg-slate-200 h-1.5 overflow-hidden">
           <div 
-            className={`h-full transition-all duration-1000 ease-out ${getStatusColor().replace('text', 'bg')}`}
+            className={`h-full transition-all duration-1000 ease-out ${value > 0 ? 'bg-red-600' : 'bg-slate-400'}`}
             style={{ width: `${Math.min(Math.max(value * 5, 0), 100)}%` }} 
           />
         </div>
+        <p className="text-[10px] leading-tight text-slate-400 font-medium uppercase tracking-wider">
+          {description}
+        </p>
       </div>
-      <p className="mt-4 text-xs text-gray-500 italic leading-relaxed">
-        {description}
-      </p>
     </div>
   );
 };
