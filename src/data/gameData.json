@@ -15,24 +15,28 @@
           "text": "Tăng lương mạnh (15%)",
           "impact": { "growth": -0.8, "inflation": 2.0, "unemployment": 1.5, "satisfaction": 20 },
           "theory": "Bảo vệ tối đa hàng hóa sức lao động, nhưng gây áp lực lạm phát chi phí đẩy nặng nề.",
+          "insight": "Lênin từng nhắc nhở: 'Lợi ích của phong trào công nhân phải phục vụ lợi ích chung của nhà nước vô sản. Sự hy sinh tạm thời là cần thiết để bảo vệ thành quả cách mạng.'",
           "tag": "Radical"
         },
         {
           "text": "Tăng lương nhẹ (5%)",
           "impact": { "growth": 0.2, "inflation": 0.5, "unemployment": 0.2, "satisfaction": 5 },
           "theory": "Cân bằng giữa tái sản xuất sức lao động và khả năng tích lũy của tư bản.",
+          "insight": "Duy trì khả năng tái sản xuất sức lao động là điều kiện tiên quyết để giữ vững lực lượng sản xuất nòng cốt.",
           "tag": "Reformist"
         },
         {
           "text": "Giữ nguyên để thu hút đầu tư",
           "impact": { "growth": 1.5, "inflation": -0.5, "unemployment": -0.8, "satisfaction": -20 },
           "theory": "Ưu tiên tích lũy tư bản tuyệt đối, làm trầm trọng thêm mâu thuẫn giai cấp.",
+          "insight": "Coi chừng! Việc bóc lột quá mức giá trị thặng dư sẽ đẩy giai cấp công nhân vào con đường bần cùng hóa, đe dọa liên minh công nông.",
           "tag": "Capitalist"
         },
         {
           "text": "Tăng lương kèm đào tạo kỹ năng",
           "impact": { "growth": 0.5, "inflation": 0.8, "unemployment": -0.2, "satisfaction": 12 },
           "theory": "Nâng cao giá trị hàng hóa sức lao động đi đôi với phát triển lực lượng sản xuất.",
+          "insight": "Đây là hướng đi đúng đắn: Nâng cao trình độ văn hóa và kỹ thuật cho công nhân là chìa khóa để tiến tới nền sản xuất xã hội chủ nghĩa hiện đại.",
           "tag": "Marxist"
         }
       ]
@@ -46,24 +50,28 @@
           "text": "Tăng thuế mạnh vào tập đoàn lớn",
           "impact": { "growth": -0.5, "inflation": 0.2, "unemployment": 0.5, "satisfaction": 15 },
           "theory": "Điều tiết giá trị thặng dư từ tay tư bản độc quyền vào ngân sách nhà nước.",
+          "insight": "Sử dụng công cụ thuế để hạn chế sự tích tụ tư bản tư nhân quá mức, đồng thời tập trung nguồn lực cho các công trình hạ tầng quốc gia.",
           "tag": "Marxist"
         },
         {
           "text": "Giảm thuế để kích thích đầu tư",
           "impact": { "growth": 1.8, "inflation": 1.2, "unemployment": -1.0, "satisfaction": -5 },
           "theory": "Tạo điều kiện cho quá trình tích lũy và tập trung tư bản tự do.",
+          "insight": "Lênin trong NEP cho rằng: 'Cần sử dụng các yếu tố tư bản chủ nghĩa dưới sự kiểm soát của nhà nước để khôi phục nền kinh tế bị tàn phá.'",
           "tag": "Capitalist"
         },
         {
           "text": "Đánh thuế lũy tiến theo quy mô",
           "impact": { "growth": 0.3, "inflation": 0.5, "unemployment": 0.1, "satisfaction": 8 },
           "theory": "Hạn chế sự phân hóa giàu nghèo trong quan hệ sở hữu.",
+          "insight": "Sự điều tiết này giúp duy trì sự ổn định xã hội, ngăn chặn việc hình thành các 'ông chủ' lũng đoạn thị trường.",
           "tag": "Reformist"
         },
         {
           "text": "Miễn thuế cho ngành công nghệ cao",
           "impact": { "growth": 1.1, "inflation": 0.4, "unemployment": -0.5, "satisfaction": 2 },
           "theory": "Ưu tiên phát triển các lực lượng sản xuất tiên tiến.",
+          "insight": "Học thuyết Mác nhấn mạnh vai trò quyết định của lực lượng sản xuất. Công nghệ hiện đại chính là bước đệm cần thiết cho chủ nghĩa xã hội.",
           "tag": "Technocratic"
         }
       ]
@@ -77,24 +85,28 @@
           "text": "Quốc hữu hóa toàn bộ đất đai",
           "impact": { "growth": -1.5, "inflation": -1.2, "unemployment": 0.5, "satisfaction": 25 },
           "theory": "Xóa bỏ hoàn toàn địa tô tư nhân, khẳng định sở hữu toàn dân tuyệt đối.",
+          "insight": "Lênin viết: 'Quốc hữu hóa đất đai là bước đi triệt để nhất để xóa bỏ tàn dư của chế độ phong kiến và tạo nền tảng cho canh tác tập thể.'",
           "tag": "Radical"
         },
         {
           "text": "Đánh thuế cao vào đầu cơ đất",
           "impact": { "growth": 0.2, "inflation": -0.8, "unemployment": -0.1, "satisfaction": 15 },
           "theory": "Điều tiết địa tô chênh lệch để phục vụ lợi ích chung.",
+          "insight": "Thu hồi giá trị thặng dư do vị trí địa lý mang lại (địa tô II) để tái đầu tư cho các dịch vụ công ích xã hội.",
           "tag": "Marxist"
         },
         {
           "text": "Mở rộng quyền chuyển nhượng",
           "impact": { "growth": 2.0, "inflation": 1.5, "unemployment": -0.5, "satisfaction": -15 },
           "theory": "Thương mại hóa tư liệu sản xuất đất đai, thúc đẩy thị trường bất động sản.",
+          "insight": "Biến đất đai thành hàng hóa có thể kích thích tăng trưởng ngắn hạn nhưng sẽ tạo ra sự bất bình đẳng sâu sắc về tư liệu sản xuất.",
           "tag": "Capitalist"
         },
         {
           "text": "Quy hoạch khu công nghiệp tập trung",
           "impact": { "growth": 1.2, "inflation": 0.5, "unemployment": -0.8, "satisfaction": 5 },
           "theory": "Tổ chức lại lực lượng sản xuất theo hướng tập trung hóa.",
+          "insight": "Sự tập trung hóa sản xuất là một quy luật khách quan của quá trình phát triển tư bản lên chủ nghĩa xã hội.",
           "tag": "Reformist"
         }
       ]
@@ -108,24 +120,28 @@
           "text": "Hệ thống giáo dục công miễn phí",
           "impact": { "growth": 0.8, "inflation": 0.5, "unemployment": -1.2, "satisfaction": 20 },
           "theory": "Nâng cao chất lượng hàng hóa sức lao động bằng chi phí xã hội.",
+          "insight": "Xóa nạn mù chữ và phổ cập kỹ thuật là ưu tiên hàng đầu của chính quyền Xô Viết. 'Học, học nữa, học mãi!'",
           "tag": "Marxist"
         },
         {
           "text": "Khuyến khích các trường tư thục",
           "impact": { "growth": 1.5, "inflation": 0.8, "unemployment": -0.5, "satisfaction": -10 },
           "theory": "Xã hội hóa giáo dục theo quy luật thị trường, tăng sự phân hóa tri thức.",
+          "insight": "Biến tri thức thành hàng hóa có thể tăng tốc độ đào tạo nhưng sẽ để lại những tầng lớp bị gạt ra khỏi sự phát triển.",
           "tag": "Capitalist"
         },
         {
           "text": "Liên kết Doanh nghiệp - Nhà trường",
           "impact": { "growth": 1.2, "inflation": 0.3, "unemployment": -0.8, "satisfaction": 5 },
           "theory": "Phối hợp giữa quan hệ sản xuất và nhu cầu phát triển lực lượng sản xuất.",
+          "insight": "Sự kết hợp giữa lý luận và thực tiễn, giữa nhà trường và công xưởng là nguyên tắc giáo dục của chủ nghĩa Mác.",
           "tag": "Reformist"
         },
         {
           "text": "Chỉ đầu tư vào giáo dục đỉnh cao",
           "impact": { "growth": 1.0, "inflation": 0.2, "unemployment": 0.1, "satisfaction": -5 },
           "theory": "Tập trung nguồn lực vào các khâu then chốt của lực lượng sản xuất.",
+          "insight": "Xây dựng đội ngũ chuyên gia kỹ thuật cao là cần thiết để tiếp thu những thành tựu khoa học tiên tiến nhất của thế giới.",
           "tag": "Technocratic"
         }
       ]
@@ -139,24 +155,28 @@
           "text": "Nhà nước đầu tư trực tiếp 100%",
           "impact": { "growth": 0.9, "inflation": 1.0, "unemployment": -1.0, "satisfaction": 10 },
           "theory": "Tạo lập điều kiện sản xuất chung thông qua tích lũy nhà nước.",
+          "insight": "Sở hữu toàn dân đối với hạ tầng cốt lõi giúp nhà nước điều tiết toàn bộ nền kinh tế quốc dân một cách thống nhất.",
           "tag": "Marxist"
         },
         {
           "text": "Nhượng quyền BOT cho tư nhân",
           "impact": { "growth": 1.4, "inflation": 0.2, "unemployment": -0.5, "satisfaction": -12 },
           "theory": "Tư nhân hóa cơ sở hạ tầng, tạo cơ hội thu lợi nhuận thặng dư giao thông.",
+          "insight": "Sử dụng tư bản tư nhân để xây dựng hạ tầng là một hình thức của chủ nghĩa tư bản nhà nước, cần được giám sát chặt chẽ.",
           "tag": "Capitalist"
         },
         {
           "text": "Hợp tác PPP chia sẻ rủi ro",
           "impact": { "growth": 1.2, "inflation": 0.4, "unemployment": -0.8, "satisfaction": 2 },
           "theory": "Kết hợp các thành phần kinh tế trong đầu tư tư liệu sản xuất gián tiếp.",
+          "insight": "Mô hình kinh tế nhiều thành phần giúp huy động tối đa các nguồn lực xã hội cho mục tiêu phát triển chung.",
           "tag": "Reformist"
         },
         {
           "text": "Tập trung vào đường sắt cao tốc",
           "impact": { "growth": 1.5, "inflation": 1.2, "unemployment": -0.4, "satisfaction": 8 },
           "theory": "Ưu tiên hạ tầng kỹ thuật hiện đại cho tương lai.",
+          "insight": "Kế hoạch GOELRO vĩ đại của Lênin chính là tiền thân của những đại dự án hạ tầng hiện đại này.",
           "tag": "Technocratic"
         }
       ]
@@ -170,24 +190,28 @@
           "text": "Kiểm soát giá xăng dầu tuyệt đối",
           "impact": { "growth": 0.1, "inflation": -2.0, "unemployment": 0.2, "satisfaction": 15 },
           "theory": "Nhà nước can thiệp thô bạo vào quy luật giá trị để bảo vệ xã hội.",
+          "insight": "Kiểm soát giá là biện pháp hành chính cần thiết trong tình trạng khẩn cấp để bảo vệ mức sống của quần chúng lao động.",
           "tag": "Marxist"
         },
         {
           "text": "Để thị trường tự điều tiết giá",
           "impact": { "growth": -0.8, "inflation": 3.0, "unemployment": 0.8, "satisfaction": -20 },
           "theory": "Tôn trọng tuyệt đối quy luật cung cầu, đẩy rủi ro cho người lao động.",
+          "insight": "Buông lỏng quản lý giá năng lượng sẽ dẫn đến sự hỗn loạn của quy luật giá trị, gây thiệt hại nặng nề cho các ngành sản xuất.",
           "tag": "Capitalist"
         },
         {
           "text": "Trợ giá cho người nghèo",
           "impact": { "growth": -0.2, "inflation": 0.5, "unemployment": 0.1, "satisfaction": 10 },
           "theory": "Điều tiết phân phối lại thu nhập để giảm bớt mâu thuẫn xã hội.",
+          "insight": "Sử dụng quỹ tiêu dùng xã hội để trợ giúp những người gặp khó khăn là biểu hiện của tính ưu việt nhân văn của chế độ.",
           "tag": "Reformist"
         },
         {
           "text": "Đầu tư mạnh cho năng lượng tái tạo",
           "impact": { "growth": 0.5, "inflation": 0.8, "unemployment": -0.5, "satisfaction": 5 },
           "theory": "Thay đổi cơ sở năng lượng của lực lượng sản xuất.",
+          "insight": "Cuộc cách mạng kỹ thuật trong năng lượng sẽ tạo ra bước nhảy vọt mới cho trình độ của lực lượng sản xuất.",
           "tag": "Technocratic"
         }
       ]
@@ -201,24 +225,28 @@
           "text": "Y tế toàn dân miễn phí",
           "impact": { "growth": -0.5, "inflation": 1.2, "unemployment": 0.2, "satisfaction": 25 },
           "theory": "Bảo đảm quyền lợi con người, tách rời y tế khỏi mục tiêu lợi nhuận thặng dư.",
+          "insight": "Phúc lợi xã hội không phải là hàng hóa. Sức khỏe của nhân dân là vốn quý nhất của xã hội vô sản.",
           "tag": "Marxist"
         },
         {
           "text": "Tư nhân hóa hệ thống bệnh viện",
           "impact": { "growth": 1.0, "inflation": 0.6, "unemployment": -0.2, "satisfaction": -15 },
           "theory": "Biến y tế thành ngành kinh doanh thu lợi nhuận, tăng sự bất bình đẳng.",
+          "insight": "Thương mại hóa y tế dẫn đến tình trạng người giàu được sống, người nghèo bị bỏ rơi - một mâu thuẫn sâu sắc của CNTB.",
           "tag": "Capitalist"
         },
         {
           "text": "Bảo hiểm y tế bắt buộc",
           "impact": { "growth": 0.2, "inflation": 0.4, "unemployment": 0.1, "satisfaction": 5 },
           "theory": "Xã hội hóa chi phí y tế thông qua quan hệ phân phối lại.",
+          "insight": "Sự đoàn kết giai cấp thông qua việc đóng góp chung để cùng chia sẻ rủi ro bệnh tật.",
           "tag": "Reformist"
         },
         {
           "text": "Số hóa ngành y tế",
           "impact": { "growth": 0.8, "inflation": 0.3, "unemployment": -0.4, "satisfaction": 2 },
           "theory": "Ứng dụng khoa học công nghệ vào lĩnh vực dịch vụ xã hội.",
+          "insight": "Công nghệ hóa quản lý giúp tối ưu hóa nguồn lực y tế còn hạn hẹp của đất nước.",
           "tag": "Technocratic"
         }
       ]
@@ -232,24 +260,28 @@
           "text": "Đóng cửa nhà máy vi phạm ngay",
           "impact": { "growth": -2.0, "inflation": 1.5, "unemployment": 2.0, "satisfaction": 15 },
           "theory": "Ưu tiên giá trị sử dụng của môi trường hơn giá trị trao đổi kinh tế.",
+          "insight": "Không thể đánh đổi sức khỏe cộng đồng lấy các con số tăng trưởng vô hồn. Sản xuất phải vì con người.",
           "tag": "Radical"
         },
         {
           "text": "Đánh thuế Carbon cao",
           "impact": { "growth": -0.5, "inflation": 0.8, "unemployment": 0.3, "satisfaction": 10 },
           "theory": "Sử dụng công cụ kinh tế để điều tiết hành vi của tư bản sản xuất.",
+          "insight": "Buộc các nhà sản xuất phải tính toán cả chi phí xã hội vào giá thành hàng hóa để giảm thiểu tác động tiêu cực.",
           "tag": "Marxist"
         },
         {
           "text": "Cho phép mua bán hạn ngạch phát thải",
           "impact": { "growth": 0.5, "inflation": 0.3, "unemployment": -0.1, "satisfaction": -8 },
           "theory": "Thương mại hóa quyền gây ô nhiễm môi trường.",
+          "insight": "Tạo ra thị trường cho 'quyền ô nhiễm' là một giải pháp đậm chất tư bản chủ nghĩa, thường có lợi cho các tập đoàn lớn.",
           "tag": "Capitalist"
         },
         {
           "text": "Hỗ trợ công nghệ sạch cho DN",
           "impact": { "growth": 0.8, "inflation": 0.4, "unemployment": -0.2, "satisfaction": 5 },
           "theory": "Nâng cấp trình độ công nghệ của lực lượng sản xuất để giảm tác hại môi trường.",
+          "insight": "Giải quyết mâu thuẫn giữa phát triển và môi trường thông qua tiến bộ vượt bậc của công nghệ sản xuất.",
           "tag": "Technocratic"
         }
       ]
@@ -263,24 +295,28 @@
           "text": "Chia tách các tập đoàn độc quyền",
           "impact": { "growth": -0.2, "inflation": -0.5, "unemployment": 0.5, "satisfaction": 18 },
           "theory": "Kiểm soát xu hướng tập trung tư bản, duy trì môi trường cạnh tranh lành mạnh.",
+          "insight": "Lênin trong tác phẩm 'Chủ nghĩa đế quốc' đã chỉ rõ: Độc quyền là sự thối nát nhất của tư bản. Cần kiên quyết phá vỡ thế độc quyền.",
           "tag": "Marxist"
         },
         {
           "text": "Khuyến khích 'Vô địch quốc gia'",
           "impact": { "growth": 1.2, "inflation": 0.8, "unemployment": -0.5, "satisfaction": -10 },
           "theory": "Thúc đẩy tích tụ tư bản ở quy mô lớn để cạnh tranh quốc tế.",
+          "insight": "Tận dụng lợi thế quy mô của các tập đoàn lớn để đối trọng với sức mạnh của tư bản tài chính toàn cầu.",
           "tag": "Capitalist"
         },
         {
           "text": "Luật cạnh tranh nghiêm ngặt",
           "impact": { "growth": 0.3, "inflation": 0.2, "unemployment": 0.1, "satisfaction": 5 },
           "theory": "Nhà nước điều tiết hành vi thị trường thông qua pháp luật.",
+          "insight": "Dùng bàn tay hữu hình của nhà nước để nắn chỉnh các khiếm khuyết của thị trường tự do.",
           "tag": "Reformist"
         },
         {
           "text": "Quốc hữu hóa ngành cốt lõi",
           "impact": { "growth": -0.8, "inflation": 1.0, "unemployment": -0.2, "satisfaction": 12 },
           "theory": "Chuyển sở hữu tư nhân độc quyền sang sở hữu nhà nước trong các khâu then chốt.",
+          "insight": "Chuyển độc quyền tư nhân thành độc quyền nhà nước dưới sự lãnh đạo của Đảng vô sản phục vụ lợi ích nhân dân.",
           "tag": "Radical"
         }
       ]
@@ -294,24 +330,28 @@
           "text": "Hội nhập kinh tế quốc tế sâu rộng",
           "impact": { "growth": 2.0, "inflation": 1.2, "unemployment": -0.8, "satisfaction": 5 },
           "theory": "Tận dụng phân công lao động quốc tế để phát triển lực lượng sản xuất.",
+          "insight": "Lênin từng kêu gọi thu hút chuyên gia và kỹ thuật phương Tây để đẩy nhanh quá trình hiện đại hóa nước Nga Xô Viết.",
           "tag": "Capitalist"
         },
         {
           "text": "Xây dựng kinh tế độc lập tự chủ",
           "impact": { "growth": 0.5, "inflation": 0.8, "unemployment": -0.2, "satisfaction": 12 },
           "theory": "Bảo vệ chủ quyền kinh tế, tránh phụ thuộc vào tư bản nước ngoài.",
+          "insight": "Độc lập về kinh tế là nền tảng vững chắc nhất để giữ vững độc lập về chính trị và chủ quyền dân tộc.",
           "tag": "Marxist"
         },
         {
           "text": "Hợp tác đa phương chọn lọc",
           "impact": { "growth": 1.2, "inflation": 0.5, "unemployment": -0.5, "satisfaction": 8 },
           "theory": "Linh hoạt trong quan hệ đối ngoại để tối ưu hóa lợi ích quốc gia.",
+          "insight": "Sự linh hoạt trong chiến lược là một nghệ thuật chính trị mà Lênin đã thực hành bậc thầy qua Hòa ước Brest-Litovsk.",
           "tag": "Reformist"
         },
         {
           "text": "Tập trung xuất khẩu chủ lực",
           "impact": { "growth": 1.5, "inflation": 1.0, "unemployment": -0.4, "satisfaction": -2 },
           "theory": "Định hướng sản xuất theo nhu cầu thị trường thế giới.",
+          "insight": "Ngoại thương phải là đòn bẩy để mang về ngoại tệ và tư liệu sản xuất cần thiết cho công nghiệp hóa.",
           "tag": "Technocratic"
         }
       ]
