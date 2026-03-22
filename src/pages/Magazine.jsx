@@ -44,9 +44,16 @@ const Page = React.forwardRef((props, ref) => {
       ref={ref}
     >
       <div className="w-full h-full flex flex-col p-5 sm:p-8 md:p-12 relative text-gray-200 font-sans">
-        {props.children}
+        <div 
+          className="flex-1 overflow-y-auto magazine-page-body pr-1 sm:pr-2 pb-16 sm:pb-20"
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onWheel={(e) => e.stopPropagation()}
+        >
+          {props.children}
+        </div>
         {props.number && (
-          <div className="absolute bottom-6 left-0 w-full px-5 sm:px-8 md:px-12 flex justify-between items-center text-zinc-500 text-[10px] sm:text-xs font-sans tracking-widest">
+          <div className="absolute bottom-6 left-0 w-full px-5 sm:px-8 md:px-12 flex justify-between items-center text-zinc-500 text-[10px] sm:text-xs font-sans tracking-widest z-20 bg-gradient-to-t from-[#121214] via-[#121214] to-transparent pt-8">
             <span>{props.number}</span>
             <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-red-500 transition-colors truncate max-w-[150px] sm:max-w-none">
               mln122-gr6.onrender.com
@@ -93,7 +100,9 @@ const CoverPage = React.forwardRef((props, ref) => {
 
 const Magazine = () => {
   const printRef = useRef();
+  const flipBookRef = useRef();
   const [isGenerating, setIsGenerating] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState(0);
   const { width, height, usePortrait } = useMagazineBookSize();
 
   const handleDownloadPdf = () => {
@@ -165,7 +174,31 @@ const Magazine = () => {
         </button>
       </div>
 
-      <div className="w-full max-w-full overflow-hidden flex justify-center py-4 px-2 sm:px-0">
+      <div className="w-full max-w-full overflow-hidden flex justify-center py-4 px-2 sm:px-0 relative group">
+        {/* Navigation Buttons - Hidden on very small screens or during generation */}
+        {!isGenerating && (
+          <>
+            <button
+              onClick={() => flipBookRef.current.pageFlip().flipPrev()}
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-50 p-2 sm:p-3 rounded-full bg-black/40 hover:bg-red-600/80 text-white backdrop-blur-md border border-white/10 transition-all active:scale-90 opacity-0 group-hover:opacity-100 md:opacity-100 shadow-xl"
+              aria-label="Previous Page"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <button
+              onClick={() => flipBookRef.current.pageFlip().flipNext()}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-50 p-2 sm:p-3 rounded-full bg-black/40 hover:bg-red-600/80 text-white backdrop-blur-md border border-white/10 transition-all active:scale-90 opacity-0 group-hover:opacity-100 md:opacity-100 shadow-xl"
+              aria-label="Next Page"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
+          </>
+        )}
+
         <HTMLFlipBook
           width={width}
           height={height}
@@ -181,6 +214,8 @@ const Magazine = () => {
           useMouseEvents={true}
           usePortrait={usePortrait}
           startPage={0}
+          ref={flipBookRef}
+          onFlip={(e) => setCurrentPage(e.data)}
         >
         {/* Page 1: Cover */}
         <div className="bg-black overflow-hidden relative w-full h-full">
