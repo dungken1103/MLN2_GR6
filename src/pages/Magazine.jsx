@@ -50,7 +50,7 @@ const Page = React.forwardRef((props, ref) => {
       }`}
       ref={ref}
     >
-      {/* Lớp trang trí: gradient góc + họa tiết chấm */}
+        {/* Lớp trang trí: gradient góc + họa tiết chấm */}
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_100%_-20%,rgba(185,28,28,0.14),transparent_45%),radial-gradient(80%_60%_at_0%_100%,rgba(0,0,0,0.35),transparent_50%)]"
         aria-hidden
@@ -61,16 +61,16 @@ const Page = React.forwardRef((props, ref) => {
           aria-hidden
         />
       )}
-      <div className="magazine-page-shell relative flex h-full min-h-0 flex-col pl-3 pr-3 pt-4 sm:pl-5 sm:pr-6 sm:pt-7 md:pl-7 md:pr-9 md:pt-9">
+      <div className="magazine-page-shell relative flex h-full min-h-0 flex-col pl-2 pr-2 pt-3 sm:pl-5 sm:pr-6 sm:pt-7 md:pl-7 md:pr-9 md:pt-9 @container/shell">
         {/* Thanh nhấn đỏ + nhãn - ẩn nếu hideHeader=true hoặc PDF page không có số */}
         {!hideHeader && (
-          <div className="mb-2 sm:mb-4 flex shrink-0 items-center gap-2 pl-1 sm:gap-3">
-            <div className="h-8 sm:h-12 w-1 shrink-0 rounded-full bg-gradient-to-b from-red-500 via-red-600 to-red-900/80 shadow-[0_0_12px_rgba(220,38,38,0.35)]" />
+          <div className="mb-1.5 sm:mb-4 flex shrink-0 items-center gap-1.5 pl-0.5 sm:gap-3">
+            <div className="h-6 sm:h-12 w-1 shrink-0 rounded-full bg-gradient-to-b from-red-500 via-red-600 to-red-900/80 shadow-[0_0_12px_rgba(220,38,38,0.35)]" />
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="font-outfit text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.42em] text-red-500/90">
+              <span className="font-outfit text-[7.5px] sm:text-[9px] font-semibold uppercase tracking-[0.42em] text-red-500/90">
                 Kinh tế chính trị
               </span>
-              <span className="font-outfit text-[7px] sm:text-[8px] uppercase tracking-[0.28em] text-zinc-600">
+              <span className="font-outfit text-[6.5px] sm:text-[8px] uppercase tracking-[0.28em] text-zinc-600">
                 Mác — Lênin · Hồ sơ NEP
               </span>
             </div>
@@ -79,26 +79,29 @@ const Page = React.forwardRef((props, ref) => {
 
         {/* Nội dung — tự động thu nhỏ trên mobile để không cần cuộn */}
         <div
-          className="magazine-page-body min-h-0 flex-1 overflow-hidden font-inter text-[12.5px] leading-[1.65] text-zinc-300 sm:text-[15px] sm:leading-[1.75] md:text-[17px] [&_h2]:font-outfit [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-white [&_h3]:font-outfit [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.12em] [&_strong]:font-semibold [&_strong]:text-zinc-100"
+          className="magazine-page-body min-h-0 flex-1 overflow-hidden"
+          style={{ containerType: 'size', overflow: 'hidden' }}
         >
           {/* Khung nội dung nhẹ */}
-          <div className="magazine-prose h-full flex flex-col justify-center rounded-sm border border-white/[0.06] bg-zinc-900/20 px-3 py-2.5 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] sm:block sm:h-auto sm:px-4 sm:py-4 md:px-5 md:py-5">
-            <div>{props.children}</div>
+          <div className="magazine-prose h-full flex flex-col justify-center rounded-sm border border-white/[0.06] bg-zinc-900/20 px-2.5 py-2 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] sm:block sm:h-auto sm:px-4 sm:py-4 md:px-5 md:py-5">
+            <div className="font-inter text-[clamp(9.5px,3.2cqh,15px)] leading-[1.48] text-zinc-300 sm:text-[15px] sm:leading-[1.75] md:text-[17px] [&_h2]:font-outfit [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-white [&_h2]:text-[clamp(14px,5cqh,30px)] [&_h2]:leading-[1.1] [&_h2]:mb-[0.3cqh] [&_h3]:font-outfit [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.12em] [&_h3]:text-[clamp(11px,3.8cqh,20px)] [&_h3]:leading-[1.2] [&_h3]:mb-[0.3cqh] [&_p]:mb-[0.6cqh] [&_strong]:font-semibold [&_strong]:text-zinc-100">
+              {props.children}
+            </div>
           </div>
         </div>
 
         {/* Footer trong luồng — PDF/html2canvas luôn thấy đủ */}
         {props.number && (
-          <footer className="magazine-page-footer mt-2 sm:mt-3 flex shrink-0 flex-row items-end justify-between gap-3 border-t border-red-950/50 bg-gradient-to-t from-zinc-950/90 to-transparent pt-2.5 sm:pt-3 text-[9px] sm:text-[10px] text-zinc-500 md:text-[11px]">
-            <div className="flex items-baseline gap-2 font-outfit">
-              <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.25em] text-zinc-600">Trang</span>
-              <span className="text-base sm:text-lg font-bold tabular-nums leading-none text-red-500/95">{props.number}</span>
+          <footer className="magazine-page-footer mt-1.5 sm:mt-3 flex shrink-0 flex-row items-end justify-between gap-2 border-t border-red-950/50 bg-gradient-to-t from-zinc-950/90 to-transparent pt-1.5 sm:pt-3 text-[8.5px] sm:text-[10px] text-zinc-500 md:text-[11px]">
+            <div className="flex items-baseline gap-1.5 font-outfit">
+              <span className="text-[7.5px] sm:text-[9px] uppercase tracking-[0.25em] text-zinc-600">Trang</span>
+              <span className="text-sm sm:text-lg font-bold tabular-nums leading-none text-red-500/95">{props.number}</span>
             </div>
             <a
               href="https://mln122-gr6.onrender.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="magazine-footer-link break-all text-right font-inter text-[9.5px] sm:text-[10px] font-normal normal-case tracking-normal text-red-400/95 [overflow-wrap:anywhere] transition-colors hover:text-red-300 sm:max-w-[70%] md:text-[11px]"
+              className="magazine-footer-link break-all text-right font-inter text-[8px] sm:text-[10px] font-normal normal-case tracking-normal text-red-400/95 [overflow-wrap:anywhere] transition-colors hover:text-red-300 sm:max-w-[70%] md:text-[11px]"
             >
               mln122-gr6.onrender.com
             </a>
@@ -159,6 +162,10 @@ const Magazine = () => {
   const lastFlipPageRef = useRef(0);
   const [isGenerating, setIsGenerating] = React.useState(false);
   const { width, height, usePortrait } = useMagazineBookSize();
+  
+  // Tailwind v3 requires adding @tailwindcss/container-queries plugin for @container
+  // But we can use simple inline styles for the container to avoid config changes
+
   const TOTAL_PAGES = 36;
 
   const handleDownloadPdf = () => {
