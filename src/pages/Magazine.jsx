@@ -42,9 +42,38 @@ const MagazineContext = React.createContext({ isMobile: false });
 const Page = React.forwardRef((props, ref) => {
   const { isMobile } = React.useContext(MagazineContext);
   const { hideHeader = false } = props;
+  const bodyRef = useRef(null);
+
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el || !isMobile) return;
+
+    // Ngăn sự kiện chạm/chuột lan ra ngoài flipbook wrapper, 
+    // giúp người dùng có thể cuộn nội dung mà không bị lật trang ngoài ý muốn.
+    const stopPropagation = (e) => e.stopPropagation();
+
+    el.addEventListener('touchstart', stopPropagation, { passive: false });
+    el.addEventListener('touchmove', stopPropagation, { passive: false });
+    el.addEventListener('touchend', stopPropagation, { passive: false });
+    el.addEventListener('mousedown', stopPropagation);
+    el.addEventListener('mousemove', stopPropagation);
+    el.addEventListener('mouseup', stopPropagation);
+
+    return () => {
+      el.removeEventListener('touchstart', stopPropagation);
+      el.removeEventListener('touchmove', stopPropagation);
+      el.removeEventListener('touchend', stopPropagation);
+      el.removeEventListener('mousedown', stopPropagation);
+      el.removeEventListener('mousemove', stopPropagation);
+      el.removeEventListener('mouseup', stopPropagation);
+    };
+  }, [isMobile]);
+
   return (
     <div
-      className="magazine-page-inner border-r border-zinc-800/60 shadow-magazine-inner relative h-full w-full overflow-hidden"
+      className={`magazine-page-inner border-r border-zinc-800/60 shadow-magazine-inner relative h-full w-full overflow-hidden ${
+        isMobile ? 'transform-gpu' : ''
+      }`}
       ref={ref}
     >
       {/* Lớp trang trí: gradient góc + họa tiết chấm */}
@@ -52,10 +81,12 @@ const Page = React.forwardRef((props, ref) => {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_100%_-20%,rgba(185,28,28,0.14),transparent_45%),radial-gradient(80%_60%_at_0%_100%,rgba(0,0,0,0.35),transparent_50%)]"
         aria-hidden
       />
-      <div
-        className="magazine-page-texture pointer-events-none absolute inset-0 opacity-[0.045]"
-        aria-hidden
-      />
+      {!isMobile && (
+        <div
+          className="magazine-page-texture pointer-events-none absolute inset-0 opacity-[0.045]"
+          aria-hidden
+        />
+      )}
       <div className="magazine-page-shell relative flex h-full min-h-0 flex-col pl-4 pr-4 pt-5 text-zinc-200 sm:pl-5 sm:pr-6 sm:pt-7 md:pl-7 md:pr-9 md:pt-9">
         {/* Thanh nhấn đỏ + nhãn - ẩn nếu hideHeader=true hoặc PDF page không có số */}
         {!hideHeader && (
@@ -74,14 +105,10 @@ const Page = React.forwardRef((props, ref) => {
 
         {/* Nội dung — cuộn trên mobile */}
         <div
+          ref={bodyRef}
           className={`magazine-page-body min-h-0 flex-1 font-inter text-[15px] leading-[1.75] text-zinc-300 sm:text-[16px] md:text-[17px] [&_h2]:font-outfit [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-white [&_h3]:font-outfit [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.12em] [&_strong]:font-semibold [&_strong]:text-zinc-100 ${
-            isMobile ? 'overflow-y-auto overflow-x-hidden pr-1.5 custom-scrollbar' : 'overflow-hidden'
+            isMobile ? 'overflow-y-auto overflow-x-hidden pr-1.5 custom-scrollbar overscroll-contain touch-pan-y' : 'overflow-hidden'
           }`}
-          onMouseDown={(e) => isMobile && e.stopPropagation()}
-          onMouseUp={(e) => isMobile && e.stopPropagation()}
-          onTouchStart={(e) => isMobile && e.stopPropagation()}
-          onTouchMove={(e) => isMobile && e.stopPropagation()}
-          onTouchEnd={(e) => isMobile && e.stopPropagation()}
         >
           {/* Khung nội dung nhẹ */}
           <div className="magazine-prose rounded-sm border border-white/[0.06] bg-zinc-900/20 px-3 py-3 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] sm:px-4 sm:py-4 md:px-5 md:py-5">
@@ -112,18 +139,26 @@ const Page = React.forwardRef((props, ref) => {
 });
 
 const ImagePage = React.forwardRef((props, ref) => {
+  const { isMobile } = React.useContext(MagazineContext);
+  
   return (
-    <div className="bg-zinc-950 overflow-hidden relative w-full h-full magazine-image-frame" ref={ref}>
+    <div className={`bg-zinc-950 overflow-hidden relative w-full h-full magazine-image-frame ${isMobile ? 'transform-gpu' : ''}`} ref={ref}>
       <img
         src={props.image}
         alt={props.caption || 'Magazine Page'}
         className="w-full h-full object-cover absolute inset-0 scale-[1.01]"
+        loading="lazy"
+        decoding="async"
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50" />
-      <div className="absolute inset-0 bg-black/15 mix-blend-multiply" />
+      {!isMobile && (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 pointer-events-none" />
+          <div className="absolute inset-0 bg-black/15 mix-blend-multiply pointer-events-none" />
+        </>
+      )}
       {props.caption && (
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-6 pt-20">
-          <p className="text-gray-300 text-sm font-sans italic border-l-2 border-red-600 pl-3">
+        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4 sm:p-6 pt-16 sm:pt-20 pointer-events-none">
+          <p className="text-gray-300 text-xs sm:text-sm font-sans italic border-l-2 border-red-600 pl-3 drop-shadow-md">
             {props.caption}
           </p>
         </div>
@@ -133,12 +168,15 @@ const ImagePage = React.forwardRef((props, ref) => {
 });
 
 const CoverPage = React.forwardRef((props, ref) => {
+  const { isMobile } = React.useContext(MagazineContext);
   return (
-    <div className="bg-black overflow-hidden relative w-full h-full" ref={ref}>
-      <img src={props.image} alt="Cover Page" className="w-full h-full object-cover absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/10 flex flex-col justify-end p-8 md:p-12 relative z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />
-        {props.children}
+    <div className={`bg-black overflow-hidden relative w-full h-full ${isMobile ? 'transform-gpu' : ''}`} ref={ref}>
+      <img src={props.image} alt="Cover Page" className="w-full h-full object-cover absolute inset-0" loading="lazy" decoding="async" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/10 flex flex-col justify-end p-8 md:p-12 relative z-10 pointer-events-none">
+        {!isMobile && <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(220,38,38,0.12),transparent)] pointer-events-none" />}
+        <div className="pointer-events-auto">
+          {props.children}
+        </div>
       </div>
     </div>
   );
@@ -422,10 +460,11 @@ const Magazine = () => {
           maxWidth={780}
           minHeight={usePortrait ? height : 315}
           maxHeight={550}
-          maxShadowOpacity={0.5}
+          maxShadowOpacity={usePortrait ? 0.3 : 0.5}
           showCover={true}
           mobileScrollSupport={false}
-          className="magazine-flipbook mx-auto"
+          swipeDistance={usePortrait ? 50 : 30}
+          className={`magazine-flipbook mx-auto ${usePortrait ? 'mobile-flipbook' : ''}`}
           useMouseEvents={true}
           usePortrait={usePortrait}
           startPage={0}
