@@ -168,6 +168,26 @@ const Magazine = () => {
 
   const TOTAL_PAGES = 36;
 
+  // Chặn wrap-around bằng cách patch checkDirection trên FlipController của page-flip.
+  // checkDirection(0) kiểm tra lật "next" — ta chặn khi đã ở trang cuối.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const pf = flipBookRef.current?.pageFlip();
+      if (!pf) return;
+      const fc = pf.getFlipController();
+      if (!fc || fc.__wrapGuard) { clearInterval(timer); return; }
+
+      const origCheck = fc.checkDirection.bind(fc);
+      fc.checkDirection = function (direction) {
+        if (direction === 0 && pf.getCurrentPageIndex() >= pf.getPageCount() - 1) return false;
+        return origCheck(direction);
+      };
+      fc.__wrapGuard = true;
+      clearInterval(timer);
+    }, 300);
+    return () => clearInterval(timer);
+  }, []);
+
   const handleDownloadPdf = () => {
     setIsGenerating(true);
 
@@ -228,6 +248,7 @@ const Magazine = () => {
           body.style.flex = '1 1 auto';
           body.style.minHeight = '0';
           body.style.overflow = 'hidden';
+          body.style.containerType = 'normal';
         }
 
         const prose = page.querySelector('.magazine-prose');
@@ -235,6 +256,12 @@ const Magazine = () => {
           prose.style.fontSize = '32px';
           prose.style.lineHeight = '1.52';
           prose.style.padding = '16px 20px';
+
+          const innerDiv = prose.querySelector(':scope > div');
+          if (innerDiv) {
+            innerDiv.style.fontSize = 'inherit';
+            innerDiv.style.lineHeight = 'inherit';
+          }
         }
 
         page.querySelectorAll('.magazine-prose h2').forEach((el) => {
@@ -373,7 +400,8 @@ const Magazine = () => {
           link.style.wordBreak = 'break-all';
           link.style.overflowWrap = 'anywhere';
           link.style.textAlign = 'right';
-          link.style.textDecoration = 'underline';
+          link.style.textDecoration = 'none';
+          link.style.color = '#ef4444';
         }
       });
     };
@@ -449,21 +477,14 @@ const Magazine = () => {
           onFlip={(e) => {
             const nextPage = e?.data ?? 0;
             const prevPage = lastFlipPageRef.current;
-
-            // Guard against accidental wrap-around from last page to first page when users spam flip/scroll.
-            const jumpedFromTailToHead =
-              prevPage >= Math.floor(TOTAL_PAGES * 0.7) && nextPage <= 1;
-            const suspiciousBigBackwardJump =
-              prevPage - nextPage > Math.floor(TOTAL_PAGES * 0.45);
-            if (jumpedFromTailToHead || suspiciousBigBackwardJump) {
-              requestAnimationFrame(() => {
-                flipBookRef.current?.pageFlip()?.turnToPage(TOTAL_PAGES - 1);
-              });
-              lastFlipPageRef.current = TOTAL_PAGES - 1;
-              return;
-            }
-
             lastFlipPageRef.current = nextPage;
+
+            if (prevPage >= TOTAL_PAGES - 3 && nextPage <= 1) {
+              requestAnimationFrame(() => {
+                flipBookRef.current?.pageFlip()?.turnToPage(prevPage);
+                lastFlipPageRef.current = prevPage;
+              });
+            }
           }}
         >
         {/* Page 1: Cover */}
