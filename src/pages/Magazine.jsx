@@ -42,32 +42,6 @@ const MagazineContext = React.createContext({ isMobile: false });
 const Page = React.forwardRef((props, ref) => {
   const { isMobile } = React.useContext(MagazineContext);
   const { hideHeader = false } = props;
-  const bodyRef = useRef(null);
-
-  useEffect(() => {
-    const el = bodyRef.current;
-    if (!el || !isMobile) return;
-
-    // Ngăn sự kiện chạm/chuột lan ra ngoài flipbook wrapper, 
-    // giúp người dùng có thể cuộn nội dung mà không bị lật trang ngoài ý muốn.
-    const stopPropagation = (e) => e.stopPropagation();
-
-    el.addEventListener('touchstart', stopPropagation, { passive: false });
-    el.addEventListener('touchmove', stopPropagation, { passive: false });
-    el.addEventListener('touchend', stopPropagation, { passive: false });
-    el.addEventListener('mousedown', stopPropagation);
-    el.addEventListener('mousemove', stopPropagation);
-    el.addEventListener('mouseup', stopPropagation);
-
-    return () => {
-      el.removeEventListener('touchstart', stopPropagation);
-      el.removeEventListener('touchmove', stopPropagation);
-      el.removeEventListener('touchend', stopPropagation);
-      el.removeEventListener('mousedown', stopPropagation);
-      el.removeEventListener('mousemove', stopPropagation);
-      el.removeEventListener('mouseup', stopPropagation);
-    };
-  }, [isMobile]);
 
   return (
     <div
@@ -87,47 +61,44 @@ const Page = React.forwardRef((props, ref) => {
           aria-hidden
         />
       )}
-      <div className="magazine-page-shell relative flex h-full min-h-0 flex-col pl-4 pr-4 pt-5 text-zinc-200 sm:pl-5 sm:pr-6 sm:pt-7 md:pl-7 md:pr-9 md:pt-9">
+      <div className="magazine-page-shell relative flex h-full min-h-0 flex-col pl-3 pr-3 pt-4 sm:pl-5 sm:pr-6 sm:pt-7 md:pl-7 md:pr-9 md:pt-9">
         {/* Thanh nhấn đỏ + nhãn - ẩn nếu hideHeader=true hoặc PDF page không có số */}
         {!hideHeader && (
-          <div className="mb-3 flex shrink-0 items-center gap-2 pl-1 sm:mb-4 sm:gap-3">
-            <div className="h-10 w-1 shrink-0 rounded-full bg-gradient-to-b from-red-500 via-red-600 to-red-900/80 shadow-[0_0_12px_rgba(220,38,38,0.35)] sm:h-12" />
+          <div className="mb-2 sm:mb-4 flex shrink-0 items-center gap-2 pl-1 sm:gap-3">
+            <div className="h-8 sm:h-12 w-1 shrink-0 rounded-full bg-gradient-to-b from-red-500 via-red-600 to-red-900/80 shadow-[0_0_12px_rgba(220,38,38,0.35)]" />
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="font-outfit text-[9px] font-semibold uppercase tracking-[0.42em] text-red-500/90">
+              <span className="font-outfit text-[8px] sm:text-[9px] font-semibold uppercase tracking-[0.42em] text-red-500/90">
                 Kinh tế chính trị
               </span>
-              <span className="font-outfit text-[8px] uppercase tracking-[0.28em] text-zinc-600">
+              <span className="font-outfit text-[7px] sm:text-[8px] uppercase tracking-[0.28em] text-zinc-600">
                 Mác — Lênin · Hồ sơ NEP
               </span>
             </div>
           </div>
         )}
 
-        {/* Nội dung — cuộn trên mobile */}
+        {/* Nội dung — tự động thu nhỏ trên mobile để không cần cuộn */}
         <div
-          ref={bodyRef}
-          className={`magazine-page-body min-h-0 flex-1 font-inter text-[15px] leading-[1.75] text-zinc-300 sm:text-[16px] md:text-[17px] [&_h2]:font-outfit [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-white [&_h3]:font-outfit [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.12em] [&_strong]:font-semibold [&_strong]:text-zinc-100 ${
-            isMobile ? 'overflow-y-auto overflow-x-hidden pr-1.5 custom-scrollbar overscroll-contain touch-pan-y' : 'overflow-hidden'
-          }`}
+          className="magazine-page-body min-h-0 flex-1 overflow-hidden font-inter text-[12.5px] leading-[1.65] text-zinc-300 sm:text-[15px] sm:leading-[1.75] md:text-[17px] [&_h2]:font-outfit [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-white [&_h3]:font-outfit [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.12em] [&_strong]:font-semibold [&_strong]:text-zinc-100"
         >
           {/* Khung nội dung nhẹ */}
-          <div className="magazine-prose rounded-sm border border-white/[0.06] bg-zinc-900/20 px-3 py-3 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] sm:px-4 sm:py-4 md:px-5 md:py-5">
-            {props.children}
+          <div className="magazine-prose h-full flex flex-col justify-center rounded-sm border border-white/[0.06] bg-zinc-900/20 px-3 py-2.5 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] sm:block sm:h-auto sm:px-4 sm:py-4 md:px-5 md:py-5">
+            <div>{props.children}</div>
           </div>
         </div>
 
         {/* Footer trong luồng — PDF/html2canvas luôn thấy đủ */}
         {props.number && (
-          <footer className="magazine-page-footer mt-3 flex shrink-0 flex-row items-end justify-between gap-4 border-t border-red-950/50 bg-gradient-to-t from-zinc-950/90 to-transparent pt-3 text-[10px] text-zinc-500 sm:mt-4 sm:pt-4 sm:text-[11px]">
+          <footer className="magazine-page-footer mt-2 sm:mt-3 flex shrink-0 flex-row items-end justify-between gap-3 border-t border-red-950/50 bg-gradient-to-t from-zinc-950/90 to-transparent pt-2.5 sm:pt-3 text-[9px] sm:text-[10px] text-zinc-500 md:text-[11px]">
             <div className="flex items-baseline gap-2 font-outfit">
-              <span className="text-[9px] uppercase tracking-[0.25em] text-zinc-600">Trang</span>
-              <span className="text-lg font-bold tabular-nums leading-none text-red-500/95">{props.number}</span>
+              <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.25em] text-zinc-600">Trang</span>
+              <span className="text-base sm:text-lg font-bold tabular-nums leading-none text-red-500/95">{props.number}</span>
             </div>
             <a
               href="https://mln122-gr6.onrender.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="magazine-footer-link break-all text-right font-inter text-[10px] font-normal normal-case tracking-normal text-red-400/95 [overflow-wrap:anywhere] transition-colors hover:text-red-300 sm:max-w-[70%] sm:text-[11px]"
+              className="magazine-footer-link break-all text-right font-inter text-[9.5px] sm:text-[10px] font-normal normal-case tracking-normal text-red-400/95 [overflow-wrap:anywhere] transition-colors hover:text-red-300 sm:max-w-[70%] md:text-[11px]"
             >
               mln122-gr6.onrender.com
             </a>
