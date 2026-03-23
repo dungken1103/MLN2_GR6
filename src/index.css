@@ -14,7 +14,7 @@
   .premium-card {
     @apply bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 transition-all duration-300;
   }
-  
+
   .glossy-button {
     @apply relative overflow-hidden bg-indigo-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-95;
   }
@@ -22,8 +22,15 @@
 
 /* Custom animations */
 @keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .animate-pulse-slow {
@@ -49,60 +56,164 @@
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
+
 .pdf-page * {
   box-sizing: border-box;
 }
-/* Trang PDF: đệm đáy đủ để html2canvas không cắt footer / link */
-.pdf-page .magazine-page-inner > div {
-  padding-bottom: 2rem !important;
-}
 
 /*
- * Trang văn bản PDF: tăng kích thước font để lấp đầy không gian A4 landscape (1123px)
+ * PDF — trang văn bản (pdf-page--text):
+ * - overflow hidden + flex: footer luôn nằm trong 794px (html2canvas không cắt đáy)
+ * - chữ lớn hơn; phần dư của bài bị clip trong body, không đẩy footer ra ngoài khung
  */
-.pdf-page .magazine-page-inner {
-  font-size: 34px !important;
-  line-height: 1.62 !important;
+.pdf-print-root .pdf-page--text {
+  overflow: hidden !important;
+  height: 794px !important;
+  max-height: 794px !important;
 }
 
-.pdf-page .magazine-page-inner h2 {
-  font-size: 3.5rem !important;
-  line-height: 1.12 !important;
-  margin-bottom: 1.75rem !important;
-  color: white !important;
+.pdf-print-root .pdf-page--text .magazine-page-inner {
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  position: relative !important;
 }
 
-.pdf-page .magazine-page-inner h3 {
-  font-size: 2.65rem !important;
-  line-height: 1.22 !important;
-  margin-bottom: 1.5rem !important;
-}
-
-.pdf-page .magazine-page-inner p {
-  margin-bottom: 1.25rem !important;
-}
-
-/* Footer PDF: xếp cột, URL xuống dòng đầy đủ — tránh cắt nửa link */
-.pdf-print-root .pdf-page .magazine-page-inner .absolute.bottom-6,
-.pdf-print-root .pdf-page .magazine-page-inner .absolute.bottom-0 {
-  position: static !important;
+.pdf-print-root .pdf-page--text .magazine-page-shell {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
-  gap: 0.5rem !important;
-  font-size: 16px !important;
-  padding: 1.5rem 0 !important;
-  margin-top: auto !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  padding-top: 1.35rem !important;
+  padding-bottom: 1.3rem !important;
+  /* Safe bottom area for in-flow footer */
+  box-sizing: border-box !important;
 }
 
-.pdf-print-root .pdf-page .magazine-page-inner a {
+/* Vùng bài viết: co giãn, cắt bớt nếu quá dài — giữ chỗ cho footer */
+.pdf-print-root .pdf-page--text .magazine-page-body {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-prose {
+  font-size: 38px !important;
+  line-height: 1.52 !important;
+  padding: 1.05rem 1.2rem !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-prose h2 {
+  font-size: 3.1rem !important;
+  line-height: 1.1 !important;
+  margin-bottom: 0.95rem !important;
+  color: #fafafa !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-prose h3 {
+  font-size: 2.2rem !important;
+  line-height: 1.18 !important;
+  margin-bottom: 0.8rem !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-prose p {
+  font-size: 1em !important;
+  line-height: inherit !important;
+  margin-bottom: 0.7rem !important;
+}
+
+/* Footer: z-index + grid — không phụ thuộc breakpoint sm: của viewport */
+.pdf-print-root .pdf-page--text .magazine-page-footer {
+  position: static !important;
+  z-index: 20 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
+  margin-top: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.6rem !important;
+  margin-bottom: 0.45rem !important;
+  transform: translateY(-8px) !important;
+  min-height: 3.5rem !important;
+  border-top: 1px solid rgba(127, 29, 29, 0.55) !important;
+  background: rgba(9, 9, 11, 0.96) !important;
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  color: rgba(161, 161, 170, 0.95) !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-page-footer>div:first-child {
+  white-space: nowrap !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-page-footer .tabular-nums {
+  font-size: 1.5rem !important;
+  line-height: 1.05 !important;
+  color: #f87171 !important;
+}
+
+.pdf-print-root .pdf-page--text .magazine-footer-link {
   display: block !important;
   width: 100% !important;
+  max-width: none !important;
   word-break: break-all !important;
+  overflow-wrap: anywhere !important;
   text-align: right !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #fca5a5 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+}
+
+/* Align PDF more closely with web - enhancements */
+.pdf-print-root .magazine-page-inner {
+  background: linear-gradient(165deg, #18181b 0%, #121214 45%, #0f0f11 100%) !important;
+}
+
+.pdf-print-root .magazine-prose {
+  background-color: rgba(24, 24, 27, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Responsive updates for 800-1000px (1 page/screen) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .magazine-page-shell {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 2.5rem;
+  }
+
+  .magazine-page-body {
+    font-size: 19px !important;
+    line-height: 1.8;
+  }
+
+  .magazine-prose {
+    padding: 2.5rem !important;
+  }
+
+  .magazine-page-footer {
+    padding-top: 1.5rem;
+    font-size: 13px;
+  }
+
+  .magazine-page-footer .text-lg {
+    font-size: 1.5rem;
+  }
 }
 
 /* —— Magazine viewer (route /linhvodanh2004) —— */
@@ -122,6 +233,7 @@
   .magazine-flipbook {
     filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.5));
   }
+
   .magazine-viewport {
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
@@ -136,14 +248,22 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+/* Họa tiết chấm nhẹ (editorial) — SVG inline để không cần file ảnh */
+.magazine-page-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='1.5' cy='1.5' r='1' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-size: 24px 24px;
+}
+
 /* Cuộn nội dung trong trang (mobile / trang dài) */
 .magazine-page-body::-webkit-scrollbar {
   width: 5px;
 }
+
 .magazine-page-body::-webkit-scrollbar-thumb {
   background: rgba(220, 38, 38, 0.35);
   border-radius: 6px;
 }
+
 .magazine-page-body::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.15);
 }

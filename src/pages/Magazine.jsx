@@ -14,7 +14,7 @@ function useMagazineBookSize() {
     const update = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const isSmall = vw < 768;
+      const isSmall = vw < 1024; // Update breakpoint to 1024px to cover 800-1000px range
       if (isSmall) {
         // Leave more room for shadows and safe area
         const sidePad = vw < 400 ? 20 : 32; 
@@ -41,32 +41,70 @@ const MagazineContext = React.createContext({ isMobile: false });
 
 const Page = React.forwardRef((props, ref) => {
   const { isMobile } = React.useContext(MagazineContext);
+  const { hideHeader = false } = props;
   return (
     <div
-      className="magazine-page-inner border-r border-zinc-800/80 shadow-magazine-inner overflow-hidden relative w-full h-full"
+      className="magazine-page-inner border-r border-zinc-800/60 shadow-magazine-inner relative h-full w-full overflow-hidden"
       ref={ref}
     >
-      <div className="w-full h-full flex flex-col p-5 sm:p-8 md:p-12 relative text-gray-200 font-sans overflow-hidden">
-        {/* Scrollable Content Area - Only on Mobile */}
-        <div 
-          className={`flex-1 ${isMobile ? 'overflow-y-auto pr-2 custom-scrollbar mb-10 pb-2' : 'overflow-hidden'}`}
+      {/* Lớp trang trí: gradient góc + họa tiết chấm */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_100%_-20%,rgba(185,28,28,0.14),transparent_45%),radial-gradient(80%_60%_at_0%_100%,rgba(0,0,0,0.35),transparent_50%)]"
+        aria-hidden
+      />
+      <div
+        className="magazine-page-texture pointer-events-none absolute inset-0 opacity-[0.045]"
+        aria-hidden
+      />
+      <div className="magazine-page-shell relative flex h-full min-h-0 flex-col pl-4 pr-4 pt-5 text-zinc-200 sm:pl-5 sm:pr-6 sm:pt-7 md:pl-7 md:pr-9 md:pt-9">
+        {/* Thanh nhấn đỏ + nhãn - ẩn nếu hideHeader=true hoặc PDF page không có số */}
+        {!hideHeader && (
+          <div className="mb-3 flex shrink-0 items-center gap-2 pl-1 sm:mb-4 sm:gap-3">
+            <div className="h-10 w-1 shrink-0 rounded-full bg-gradient-to-b from-red-500 via-red-600 to-red-900/80 shadow-[0_0_12px_rgba(220,38,38,0.35)] sm:h-12" />
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <span className="font-outfit text-[9px] font-semibold uppercase tracking-[0.42em] text-red-500/90">
+                Kinh tế chính trị
+              </span>
+              <span className="font-outfit text-[8px] uppercase tracking-[0.28em] text-zinc-600">
+                Mác — Lênin · Hồ sơ NEP
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Nội dung — cuộn trên mobile */}
+        <div
+          className={`magazine-page-body min-h-0 flex-1 font-inter text-[15px] leading-[1.75] text-zinc-300 sm:text-[16px] md:text-[17px] [&_h2]:font-outfit [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-white [&_h3]:font-outfit [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.12em] [&_strong]:font-semibold [&_strong]:text-zinc-100 ${
+            isMobile ? 'overflow-y-auto overflow-x-hidden pr-1.5 custom-scrollbar' : 'overflow-hidden'
+          }`}
           onMouseDown={(e) => isMobile && e.stopPropagation()}
           onMouseUp={(e) => isMobile && e.stopPropagation()}
           onTouchStart={(e) => isMobile && e.stopPropagation()}
           onTouchMove={(e) => isMobile && e.stopPropagation()}
           onTouchEnd={(e) => isMobile && e.stopPropagation()}
         >
-          {props.children}
+          {/* Khung nội dung nhẹ */}
+          <div className="magazine-prose rounded-sm border border-white/[0.06] bg-zinc-900/20 px-3 py-3 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] sm:px-4 sm:py-4 md:px-5 md:py-5">
+            {props.children}
+          </div>
         </div>
 
-        {/* Fixed Footer */}
+        {/* Footer trong luồng — PDF/html2canvas luôn thấy đủ */}
         {props.number && (
-          <div className={`absolute left-0 w-full px-5 sm:px-8 md:px-12 flex justify-between items-center text-zinc-500 text-[10px] sm:text-xs font-sans tracking-widest ${isMobile ? 'bottom-0 h-14 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-transparent pointer-events-auto' : 'bottom-6'}`}>
-            <span>{props.number}</span>
-            <a href="https://mln122-gr6.onrender.com/" target="_blank" rel="noopener noreferrer" className="text-red-500 transition-colors truncate max-w-[150px] sm:max-w-none hover:text-red-400">
+          <footer className="magazine-page-footer mt-3 flex shrink-0 flex-row items-end justify-between gap-4 border-t border-red-950/50 bg-gradient-to-t from-zinc-950/90 to-transparent pt-3 text-[10px] text-zinc-500 sm:mt-4 sm:pt-4 sm:text-[11px]">
+            <div className="flex items-baseline gap-2 font-outfit">
+              <span className="text-[9px] uppercase tracking-[0.25em] text-zinc-600">Trang</span>
+              <span className="text-lg font-bold tabular-nums leading-none text-red-500/95">{props.number}</span>
+            </div>
+            <a
+              href="https://mln122-gr6.onrender.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="magazine-footer-link break-all text-right font-inter text-[10px] font-normal normal-case tracking-normal text-red-400/95 [overflow-wrap:anywhere] transition-colors hover:text-red-300 sm:max-w-[70%] sm:text-[11px]"
+            >
               mln122-gr6.onrender.com
             </a>
-          </div>
+          </footer>
         )}
       </div>
     </div>
@@ -108,8 +146,11 @@ const CoverPage = React.forwardRef((props, ref) => {
 
 const Magazine = () => {
   const printRef = useRef();
+  const flipBookRef = useRef(null);
+  const lastFlipPageRef = useRef(0);
   const [isGenerating, setIsGenerating] = React.useState(false);
   const { width, height, usePortrait } = useMagazineBookSize();
+  const TOTAL_PAGES = 36;
 
   const handleDownloadPdf = () => {
     setIsGenerating(true);
@@ -122,14 +163,203 @@ const Magazine = () => {
       html2canvas: {
         scale: 2,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         backgroundColor: '#171717',
+        // Không giới hạn theo viewport — tránh cắt đáy trang khi clone off-screen
         windowWidth: 1123,
-        windowHeight: 794,
+        windowHeight: 4096,
         scrollY: 0,
-        scrollX: 0
+        scrollX: 0,
+        x: 0,
+        y: 0
       },
       jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape', compress: true }
+    };
+
+    const applyPdfHardFix = (pages) => {
+      pages.forEach((page) => {
+        if (!page.classList.contains('pdf-page--text')) return;
+
+        page.style.overflow = 'hidden';
+        page.style.height = '794px';
+        page.style.maxHeight = '794px';
+
+        const inner = page.querySelector('.magazine-page-inner');
+        if (inner) {
+          inner.style.overflow = 'hidden';
+          inner.style.height = '100%';
+          inner.style.maxHeight = '100%';
+          inner.style.position = 'relative';
+        }
+
+        const shell = page.querySelector('.magazine-page-shell');
+        if (shell) {
+          shell.style.height = '100%';
+          shell.style.maxHeight = '100%';
+          shell.style.display = 'flex';
+          shell.style.flexDirection = 'column';
+          shell.style.paddingTop = '22px';
+          shell.style.paddingLeft = '32px';
+          shell.style.paddingRight = '32px';
+          shell.style.paddingBottom = '126px';
+          shell.style.boxSizing = 'border-box';
+          shell.style.position = 'relative';
+        }
+
+        const body = page.querySelector('.magazine-page-body');
+        if (body) {
+          body.style.flex = '1 1 auto';
+          body.style.minHeight = '0';
+          body.style.overflow = 'hidden';
+        }
+
+        const prose = page.querySelector('.magazine-prose');
+        if (prose) {
+          prose.style.fontSize = '32px';
+          prose.style.lineHeight = '1.52';
+          prose.style.padding = '16px 20px';
+        }
+
+        page.querySelectorAll('.magazine-prose h2').forEach((el) => {
+          el.style.fontSize = '2.75rem';
+          el.style.lineHeight = '1.1';
+          el.style.marginBottom = '0.85rem';
+        });
+
+        page.querySelectorAll('.magazine-prose h3').forEach((el) => {
+          el.style.fontSize = '1.95rem';
+          el.style.lineHeight = '1.18';
+          el.style.marginBottom = '0.75rem';
+        });
+
+        page.querySelectorAll('.magazine-prose p').forEach((el) => {
+          el.style.fontSize = '1em';
+          el.style.lineHeight = 'inherit';
+          el.style.marginBottom = '0.65rem';
+        });
+
+        const hasCreditsHeading = Array.from(
+          page.querySelectorAll('.magazine-prose h2, .magazine-prose h3')
+        ).some((el) => el.textContent?.toLowerCase().includes('ban biên tập'));
+        if (hasCreditsHeading) {
+          if (shell) {
+            shell.style.paddingTop = '28px';
+            shell.style.paddingBottom = '28px';
+          }
+          if (body) {
+            body.style.display = 'flex';
+            body.style.alignItems = 'center';
+            body.style.justifyContent = 'center';
+            body.style.overflow = 'visible';
+          }
+          if (prose) {
+            prose.style.fontSize = '24px';
+            prose.style.lineHeight = '1.44';
+            prose.style.padding = '12px 18px';
+          }
+          page.querySelectorAll('.magazine-prose h3').forEach((el) => {
+            el.style.fontSize = '1.58rem';
+            el.style.lineHeight = '1.2';
+            el.style.marginBottom = '0.4rem';
+          });
+          page.querySelectorAll('.magazine-prose p').forEach((el) => {
+            el.style.fontSize = '0.74em';
+            el.style.lineHeight = '1.42';
+          });
+
+          const creditsWrapper = page.querySelector('.magazine-credits-content');
+          if (creditsWrapper) {
+            creditsWrapper.style.maxWidth = '620px';
+            creditsWrapper.style.margin = '0 auto';
+          }
+
+          const creditsBadge = page.querySelector('.magazine-credits-badge');
+          if (creditsBadge) {
+            creditsBadge.style.width = '74px';
+            creditsBadge.style.height = '74px';
+            creditsBadge.style.marginBottom = '18px';
+            creditsBadge.style.marginTop = '2px';
+            creditsBadge.style.borderRadius = '18px';
+            creditsBadge.style.display = 'block';
+            creditsBadge.style.position = 'relative';
+            creditsBadge.style.padding = '0';
+            creditsBadge.style.fontSize = '1.95rem';
+            creditsBadge.style.lineHeight = '1';
+          }
+          const creditsBadgeText = page.querySelector('.magazine-credits-badge-text');
+          if (creditsBadgeText) {
+            creditsBadgeText.style.display = 'block';
+            creditsBadgeText.style.position = 'absolute';
+            creditsBadgeText.style.left = '50%';
+            creditsBadgeText.style.top = '50%';
+            creditsBadgeText.style.transform = 'translate(-50%, -50%)';
+            creditsBadgeText.style.lineHeight = '1';
+            creditsBadgeText.style.margin = '0';
+            creditsBadgeText.style.padding = '0';
+            creditsBadgeText.style.whiteSpace = 'nowrap';
+            creditsBadgeText.style.textAlign = 'center';
+          }
+        }
+
+        // Kết luận (inside back cover) cần nhỏ hơn để giữ nhịp thị giác ở trang cuối.
+        const hasConclusionHeading = Array.from(
+          page.querySelectorAll('.magazine-prose h2, .magazine-prose h3')
+        ).some((el) => el.textContent?.toLowerCase().includes('kết luận'));
+        if (hasConclusionHeading) {
+          if (prose) {
+            prose.style.fontSize = '26px';
+            prose.style.lineHeight = '1.48';
+            prose.style.padding = '14px 18px';
+          }
+          page.querySelectorAll('.magazine-prose h2, .magazine-prose h3').forEach((el) => {
+            el.style.fontSize = '1.5rem';
+            el.style.lineHeight = '1.2';
+          });
+          page.querySelectorAll('.magazine-prose p').forEach((el) => {
+            el.style.fontSize = '0.82em';
+            el.style.lineHeight = '1.5';
+          });
+        }
+
+        const footer = page.querySelector('.magazine-page-footer');
+        if (footer) {
+          footer.style.position = 'absolute';
+          footer.style.left = '32px';
+          footer.style.right = '32px';
+          footer.style.bottom = '10px';
+          footer.style.marginTop = '0';
+          footer.style.paddingTop = '8px';
+          footer.style.paddingBottom = '6px';
+          footer.style.display = 'flex';
+          footer.style.flexDirection = 'row';
+          footer.style.alignItems = 'flex-end';
+          footer.style.justifyContent = 'space-between';
+          footer.style.gap = '16px';
+          footer.style.background = 'rgba(9,9,11,0.96)';
+          footer.style.borderTop = '1px solid rgba(127,29,29,0.55)';
+          footer.style.fontSize = '14px';
+          footer.style.lineHeight = '1.35';
+          footer.style.zIndex = '30';
+        }
+
+        const pageNo = page.querySelector('.magazine-page-footer .tabular-nums');
+        if (pageNo) {
+          pageNo.style.fontSize = '1.45rem';
+          pageNo.style.lineHeight = '1';
+        }
+
+        const link = page.querySelector('.magazine-footer-link');
+        if (link) {
+          link.style.fontSize = '12px';
+          link.style.lineHeight = '1.35';
+          link.style.maxWidth = 'none';
+          link.style.wordBreak = 'break-all';
+          link.style.overflowWrap = 'anywhere';
+          link.style.textAlign = 'right';
+          link.style.textDecoration = 'underline';
+        }
+      });
     };
 
     // Process pages sequentially to avoid canvas limits
@@ -137,6 +367,7 @@ const Magazine = () => {
       setTimeout(async () => {
         try {
           const pages = Array.from(printRef.current.querySelectorAll('.pdf-page'));
+          applyPdfHardFix(pages);
           const pdfWorker = html2pdf.default().set(opt).from(pages[0]).toPdf();
 
           for (let i = 1; i < pages.length; i++) {
@@ -183,6 +414,7 @@ const Magazine = () => {
 
       <div className="w-full max-w-full overflow-hidden flex justify-center py-4 px-2 sm:px-0">
         <HTMLFlipBook
+          ref={flipBookRef}
           width={width}
           height={height}
           size="stretch"
@@ -192,11 +424,30 @@ const Magazine = () => {
           maxHeight={550}
           maxShadowOpacity={0.5}
           showCover={true}
-          mobileScrollSupport={true}
+          mobileScrollSupport={false}
           className="magazine-flipbook mx-auto"
           useMouseEvents={true}
           usePortrait={usePortrait}
           startPage={0}
+          onFlip={(e) => {
+            const nextPage = e?.data ?? 0;
+            const prevPage = lastFlipPageRef.current;
+
+            // Guard against accidental wrap-around from last page to first page when users spam flip/scroll.
+            const jumpedFromTailToHead =
+              prevPage >= Math.floor(TOTAL_PAGES * 0.7) && nextPage <= 1;
+            const suspiciousBigBackwardJump =
+              prevPage - nextPage > Math.floor(TOTAL_PAGES * 0.45);
+            if (jumpedFromTailToHead || suspiciousBigBackwardJump) {
+              requestAnimationFrame(() => {
+                flipBookRef.current?.pageFlip()?.turnToPage(TOTAL_PAGES - 1);
+              });
+              lastFlipPageRef.current = TOTAL_PAGES - 1;
+              return;
+            }
+
+            lastFlipPageRef.current = nextPage;
+          }}
         >
         {/* Page 1: Cover */}
         <div className="bg-black overflow-hidden relative w-full h-full">
@@ -214,10 +465,10 @@ const Magazine = () => {
         </div>
 
         {/* Page 2: Inside Cover (Credits) */}
-        <Page>
-          <div className="flex flex-col h-full justify-center items-center text-center px-2">
-            <div className="w-20 h-20 rounded-2xl border border-red-500/40 bg-gradient-to-br from-red-950/50 to-zinc-900/80 flex items-center justify-center text-2xl font-black mb-5 text-red-400 font-outfit shadow-lg shadow-red-950/40 ring-1 ring-red-500/20">
-              G6
+        <Page hideHeader={true}>
+          <div className="magazine-credits-content flex flex-col h-full justify-center items-center text-center px-2">
+            <div className="magazine-credits-badge relative w-20 h-20 rounded-2xl border border-red-500/40 bg-gradient-to-br from-red-950/50 to-zinc-900/80 p-0 text-2xl font-black mb-5 text-red-400 font-outfit shadow-lg shadow-red-950/40 ring-1 ring-red-500/20">
+              <span className="magazine-credits-badge-text absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2 leading-none">G6</span>
             </div>
             <h3 className="font-outfit uppercase tracking-[0.28em] text-base font-bold text-white mb-1">Ban biên tập</h3>
             <p className="text-sm text-zinc-500 mb-6 font-normal">Chuyên đề Kinh tế Chính trị Mác — Lênin</p>
@@ -586,9 +837,9 @@ const Magazine = () => {
                 mln122-gr6.onrender.com
               </a>
 
-              <p className="text-gray-400 text-xs max-w-xs leading-relaxed text-center opacity-80 italic">
+              {/* <p className="text-gray-400 text-xs max-w-xs leading-relaxed text-center opacity-80 italic">
                 Mô phỏng tạp chí tương tác 36 trang phục vụ bộ môn Kinh tế Chính trị Mác - Lênin.
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
@@ -626,10 +877,10 @@ const Magazine = () => {
       </div>
 
       {/* Page 2: Inside Cover (Credits) */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page>
-        <div className="flex flex-col h-full justify-center items-center text-center">
-          <div className="w-16 h-16 rounded-full border-2 border-red-600 flex items-center justify-center text-xl font-black mb-4 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-            G6
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page hideHeader={true}>
+        <div className="magazine-credits-content flex flex-col h-full justify-center items-center text-center px-4">
+          <div className="magazine-credits-badge relative w-20 h-20 rounded-2xl border border-red-500/40 bg-gradient-to-br from-red-950/50 to-zinc-900/80 p-0 text-2xl font-black mb-6 text-red-400 font-outfit shadow-lg shadow-red-950/40 ring-1 ring-red-500/20">
+            <span className="magazine-credits-badge-text absolute left-1/2 top-1/2 block -translate-x-1/2 -translate-y-1/2 leading-none">G6</span>
           </div>
           <h3 className="uppercase tracking-[0.3em] text-lg font-bold text-white mb-2">Ban Biên Tập</h3>
           <p className="text-sm text-gray-400 mb-8 font-light">Chuyên đề Kinh tế Chính trị Mác - Lênin</p>
@@ -648,7 +899,7 @@ const Magazine = () => {
       </Page></div>
 
       {/* Page 3: Lời tựa / Bối cảnh */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={1}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={1}>
         <h2 className="text-3xl font-bold text-white mb-6 font-sans leading-tight">
           Khi màn đêm bao phủ <span className="text-red-500">Đế Quốc Nga</span>
         </h2>
@@ -668,7 +919,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 5: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={2}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={2}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Cách mạng Tháng Mười & Ánh sáng hy vọng
         </h3>
@@ -690,7 +941,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 7: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={3}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={3}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Chính sách "Cộng sản thời chiến"
         </h3>
@@ -709,7 +960,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 9: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={4}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={4}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Nền kinh tế bên bờ vực thẳm
         </h3>
@@ -728,7 +979,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 11: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={5}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={5}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Tiếng chuông cảnh tỉnh Kronstadt
         </h3>
@@ -747,7 +998,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 13: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={6}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={6}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Đại hội X & Bước ngoặt lịch sử
         </h3>
@@ -767,7 +1018,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 15: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={7}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={7}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Khai sinh Chính sách Kinh tế Mới
         </h3>
@@ -786,7 +1037,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 17: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={8}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={8}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Thuế lương thực: Cởi trói cho nông dân
         </h3>
@@ -808,7 +1059,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 19: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={9}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={9}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Sự trỗi dậy của các "Nepmen"
         </h3>
@@ -827,7 +1078,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 21: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={10}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={10}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Chủ nghĩa tư bản nhà nước
         </h3>
@@ -846,7 +1097,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 23: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={11}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={11}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Khủng hoảng "Cái Kéo" (1923)
         </h3>
@@ -865,7 +1116,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 25: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={12}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={12}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Lenin qua đời: Tổn thất vô giá
         </h3>
@@ -884,7 +1135,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 27: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={13}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={13}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Công nghiệp phục hồi & Kế hoạch GOELRO
         </h3>
@@ -906,7 +1157,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 29: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={14}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={14}>
         <h3 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wider">
           Sự phân hóa nông thôn và vấn đề Phú nông
         </h3>
@@ -925,7 +1176,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 31: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={15}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={15}>
         <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
           Kết thúc NEP: Tiến lên Công nghiệp hóa
         </h3>
@@ -944,7 +1195,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 33: Text */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={16}>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page number={16}>
         <h3 className="text-3xl font-bold text-red-500 mb-6 font-sans">
           Di sản của NEP trong kinh tế hiện đại
         </h3>
@@ -963,7 +1214,7 @@ const Magazine = () => {
       /></div>
 
       {/* Page 35: Inside Back Cover (Blank/Epilogue) */}
-      <div className="pdf-page w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page>
+      <div className="pdf-page pdf-page--text w-[1123px] h-[794px] relative shrink-0 overflow-hidden text-[#d4d4d8] bg-neutral-900"><Page>
         <div className="flex flex-col h-full justify-center items-center text-center opacity-40">
           <div className="w-24 h-px bg-red-600 mb-8"></div>
           <h3 className="uppercase tracking-widest text-lg font-bold text-white mb-4">Kết Luận</h3>
