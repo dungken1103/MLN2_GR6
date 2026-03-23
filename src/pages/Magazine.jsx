@@ -578,7 +578,7 @@ const Magazine = () => {
               <p className="text-white font-bold text-3xl mb-6 tracking-wider">Nhóm 6</p>
 
               <div className="bg-transparent p-2 rounded-xl shadow-2xl mb-4 transform transition-transform hover:scale-105 border-4 border-red-600/20">
-                <img src="/images/qrcode.png" alt="QR Code" className="w-28 h-28 object-contain" />
+                <img src="/images/QR.png" alt="QR Code" className="w-28 h-28 object-contain" />
               </div>
 
               <p className="text-red-500 font-bold tracking-[0.2em] uppercase text-xs mb-2">Quét mã để truy cập</p>
